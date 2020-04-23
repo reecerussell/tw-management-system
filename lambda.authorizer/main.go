@@ -3,13 +3,12 @@ package main
 import (
 	"crypto/rsa"
 	"errors"
-	"fmt"
 	"os"
 	"strings"
 
+	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 
-	"github.com/aws/aws-lambda-go/events"
 	"github.com/reecerussell/tw-management-system/core"
 	"github.com/reecerussell/tw-management-system/core/jwt"
 )
@@ -34,21 +33,21 @@ func init() {
 func HandleAuthorize(evt events.APIGatewayCustomAuthorizerRequest) (events.APIGatewayCustomAuthorizerResponse, error) {
 	parts := strings.Split(evt.AuthorizationToken, " ")
 	if len(parts) < 2 {
-		return events.APIGatewayCustomAuthorizerResponse{}, errors.New("Invalid Token")
+		return events.APIGatewayCustomAuthorizerResponse{}, errors.New("Unauthorized")
 	}
 
 	if parts[0] != "Bearer" {
-		return events.APIGatewayCustomAuthorizerResponse{}, errors.New("Invalid Scheme")
+		return events.APIGatewayCustomAuthorizerResponse{}, errors.New("Unauthorized")
 	}
 
 	token, err := jwt.FromToken([]byte(parts[1]))
 	if err != nil {
-		return events.APIGatewayCustomAuthorizerResponse{}, fmt.Errorf("Invalid Token: %s", err.Error())
+		return events.APIGatewayCustomAuthorizerResponse{}, errors.New("Unauthorized")
 	}
 
 	valid, err := token.Check(publicKey)
 	if err != nil {
-		return events.APIGatewayCustomAuthorizerResponse{}, fmt.Errorf("Invalid Token: %s", err.Error())
+		return events.APIGatewayCustomAuthorizerResponse{}, errors.New("Unauthorized")
 	}
 
 	if !valid {
