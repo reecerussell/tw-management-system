@@ -10,6 +10,10 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/google/uuid"
+
+	"github.com/reecerussell/tw-management-system/core/users/dto"
+
 	"github.com/reecerussell/tw-management-system/core/users/datamodel"
 
 	"golang.org/x/crypto/pbkdf2"
@@ -51,6 +55,60 @@ type User struct {
 	username     string
 	email        string
 	passwordHash string
+}
+
+// NewUser creates a new User domain object, ensuring the data is valid.
+func NewUser(d *dto.CreateUser) (*User, error) {
+	u := &User{
+		id: uuid.New().String(),
+	}
+
+	err := u.UpdateUsername(d.Username)
+	if err != nil {
+		return nil, err
+	}
+
+	err = u.UpdateEmail(d.Email)
+	if err != nil {
+		return nil, err
+	}
+
+	err = u.setPassword(d.Password)
+	if err != nil {
+		return nil, err
+	}
+
+	return u, nil
+}
+
+// GetID returns the user's id.
+func (u *User) GetID() string {
+	return u.id
+}
+
+// GetUsername returns the user's username.
+func (u *User) GetUsername() string {
+	return u.username
+}
+
+// GetEmail returns the user's email.
+func (u *User) GetEmail() string {
+	return u.email
+}
+
+// Update updates the user's properties.
+func (u *User) Update(d *dto.User) error {
+	err := u.UpdateUsername(d.Username)
+	if err != nil {
+		return err
+	}
+
+	err = u.UpdateEmail(d.Email)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // UpdateUsername updates the user's username, ensuring it is valid.
@@ -143,6 +201,15 @@ func (u *User) DataModel() *datamodel.User {
 		Username:     u.username,
 		Email:        u.email,
 		PasswordHash: u.passwordHash,
+	}
+}
+
+// DTO returns a dto.User for the user.
+func (u *User) DTO() *dto.User {
+	return &dto.User{
+		ID:       u.id,
+		Username: u.username,
+		Email:    u.email,
 	}
 }
 

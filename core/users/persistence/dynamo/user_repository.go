@@ -187,18 +187,17 @@ func (r *UserRepository) Delete(id string) core.Error {
 	return nil
 }
 
-// ExistsWithUsernameOrEmail queries DynamoDB to check if a user exists with
-// either of the given username and email values.
-func (r *UserRepository) ExistsWithUsernameOrEmail(username, email string) (bool, core.Error) {
+// ExistsWithUsername queries DynamoDB to check if a user without the
+// "ignoreID" exists with the given username.
+func (r *UserRepository) ExistsWithUsername(username, ignoreID string) (bool, core.Error) {
 	proj := expression.NamesList(
 		expression.Name("id"),
 		expression.Name("username"),
-		expression.Name("email"),
-		expression.Name("passwordHash"),
 	)
 	filt := expression.Name("username").Equal(expression.Value(username))
+	cond := expression.Name("id").Equal(expression.Value(ignoreID))
 
-	expr, err := expression.NewBuilder().WithFilter(filt).WithProjection(proj).Build()
+	expr, err := expression.NewBuilder().WithFilter(filt).WithCondition(cond).WithProjection(proj).Build()
 	if err != nil {
 		r.errLog.Printf("failed to build expression: %v", err)
 		return false, core.NewError(err)
@@ -220,14 +219,26 @@ func (r *UserRepository) ExistsWithUsernameOrEmail(username, email string) (bool
 		return true, nil
 	}
 
-	filt = expression.Name("username").Equal(expression.Value(username))
-	expr, err = expression.NewBuilder().WithFilter(filt).WithProjection(proj).Build()
+	return false, nil
+}
+
+// ExistsWithEmail queries DynamoDB to check if a user without the
+// "ignoreID" exists with the given email.
+func (r *UserRepository) ExistsWithEmail(email, ignoreID string) (bool, core.Error) {
+	proj := expression.NamesList(
+		expression.Name("id"),
+		expression.Name("email"),
+	)
+	filt := expression.Name("email").Equal(expression.Value(email))
+	cond := expression.Name("id").Equal(expression.Value(ignoreID))
+
+	expr, err := expression.NewBuilder().WithFilter(filt).WithCondition(cond).WithProjection(proj).Build()
 	if err != nil {
 		r.errLog.Printf("failed to build expression: %v", err)
 		return false, core.NewError(err)
 	}
 
-	result, err = r.client.Scan(&dynamodb.ScanInput{
+	result, err := r.client.Scan(&dynamodb.ScanInput{
 		ExpressionAttributeNames:  expr.Names(),
 		ExpressionAttributeValues: expr.Values(),
 		FilterExpression:          expr.Filter(),

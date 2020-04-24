@@ -15,5 +15,6 @@ type UserRepository interface {
 	Add(u *model.User) core.Error
 	Update(u *model.User) core.Error
 	Delete(id string) core.Error
-	ExistsWithUsernameOrEmail(username, email string) (bool, core.Error)
+	ExistsWithUsername(username, ignoreID string) (bool, core.Error)
+	ExistsWithEmail(email, ignoreID string) (bool, core.Error)
 }
