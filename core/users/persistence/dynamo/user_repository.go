@@ -209,32 +209,16 @@ func (r *UserRepository) Delete(id string) core.Error {
 // ExistsWithUsername queries DynamoDB to check if a user without the
 // "ignoreID" exists with the given username.
 func (r *UserRepository) ExistsWithUsername(username, ignoreID string) (bool, core.Error) {
-	proj := expression.NamesList(
-		expression.Name("id"),
-		expression.Name("username"),
-	)
-	filt := expression.Name("username").Equal(expression.Value(username))
-	cond := expression.Name("id").Equal(expression.Value(ignoreID))
-
-	expr, err := expression.NewBuilder().WithFilter(filt).WithCondition(cond).WithProjection(proj).Build()
+	users, err := r.GetAll()
 	if err != nil {
-		r.errLog.Printf("failed to build expression: %v", err)
-		return false, core.NewError(err)
+		return false, err
 	}
 
-	result, err := r.client.Scan(&dynamodb.ScanInput{
-		ExpressionAttributeNames:  expr.Names(),
-		ExpressionAttributeValues: expr.Values(),
-		FilterExpression:          expr.Filter(),
-		ProjectionExpression:      expr.Projection(),
-		TableName:                 aws.String(repository.TableName),
-	})
-	if err != nil {
-		r.errLog.Printf("failed to query users from dynamo: %v", err)
-		return false, core.NewError(err)
-	}
+	for _, u := range users {
+		if u.GetUsername() != username || u.GetID() == ignoreID {
+			continue
+		}
 
-	if *result.Count > 1 {
 		return true, nil
 	}
 
@@ -244,32 +228,16 @@ func (r *UserRepository) ExistsWithUsername(username, ignoreID string) (bool, co
 // ExistsWithEmail queries DynamoDB to check if a user without the
 // "ignoreID" exists with the given email.
 func (r *UserRepository) ExistsWithEmail(email, ignoreID string) (bool, core.Error) {
-	proj := expression.NamesList(
-		expression.Name("id"),
-		expression.Name("email"),
-	)
-	filt := expression.Name("email").Equal(expression.Value(email))
-	cond := expression.Name("id").Equal(expression.Value(ignoreID))
-
-	expr, err := expression.NewBuilder().WithFilter(filt).WithCondition(cond).WithProjection(proj).Build()
+	users, err := r.GetAll()
 	if err != nil {
-		r.errLog.Printf("failed to build expression: %v", err)
-		return false, core.NewError(err)
+		return false, err
 	}
 
-	result, err := r.client.Scan(&dynamodb.ScanInput{
-		ExpressionAttributeNames:  expr.Names(),
-		ExpressionAttributeValues: expr.Values(),
-		FilterExpression:          expr.Filter(),
-		ProjectionExpression:      expr.Projection(),
-		TableName:                 aws.String(repository.TableName),
-	})
-	if err != nil {
-		r.errLog.Printf("failed to query users from dynamo: %v", err)
-		return false, core.NewError(err)
-	}
+	for _, u := range users {
+		if u.GetEmail() != email || u.GetID() == ignoreID {
+			continue
+		}
 
-	if *result.Count > 1 {
 		return true, nil
 	}
 
