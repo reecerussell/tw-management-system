@@ -5,6 +5,7 @@ import (
 	"errors"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -35,7 +36,18 @@ func init() {
 
 // HandleAuthorize is a Handler function for lambda.
 func HandleAuthorize(evt events.APIGatewayCustomAuthorizerRequest) (events.APIGatewayCustomAuthorizerResponse, error) {
-	token, err := jwt.FromToken([]byte(evt.AuthorizationToken))
+	parts := strings.Split(evt.AuthorizationToken, " ")
+	if len(parts) < 2 {
+		errLog.Printf("invalid token format: %s", evt.AuthorizationToken)
+		return events.APIGatewayCustomAuthorizerResponse{}, errors.New("Unauthorized")
+	}
+
+	if parts[0] != "Bearer" {
+		errLog.Printf("invalid token scheme: %s", parts[0])
+		return events.APIGatewayCustomAuthorizerResponse{}, errors.New("Unauthorized")
+	}
+
+	token, err := jwt.FromToken([]byte(parts[1]))
 	if err != nil {
 		errLog.Printf("token error: %v", err)
 		return events.APIGatewayCustomAuthorizerResponse{}, errors.New("Unauthorized")
