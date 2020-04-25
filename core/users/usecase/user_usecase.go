@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 	"time"
@@ -144,6 +145,11 @@ func (uc *userUsecase) Delete(id string) core.Error {
 
 // Login returns a new JWT access token for a user with matching credentials.
 func (uc *userUsecase) Login(d *dto.UserCredentials) (*jwt.AccessToken, core.Error) {
+	if d.Username == "" {
+		err := fmt.Errorf("username is required")
+		return nil, core.NewErrorWithStatus(err, http.StatusBadRequest)
+	}
+
 	u, err := uc.repo.GetByUsername(d.Username)
 	if err != nil {
 		return nil, err
