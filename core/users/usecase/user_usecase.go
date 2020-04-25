@@ -159,6 +159,11 @@ func (uc *userUsecase) Login(d *dto.UserCredentials) (*jwt.AccessToken, core.Err
 		return nil, core.NewErrorWithStatus(verr, http.StatusBadRequest)
 	}
 
+	err = uc.repo.Update(u)
+	if err != nil {
+		return nil, err
+	}
+
 	secret, terr := core.NewSecret(os.Getenv("AUTH_SECRET_NAME"))
 	if terr != nil {
 		return nil, core.NewError(terr)
