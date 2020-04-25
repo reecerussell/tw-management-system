@@ -34,7 +34,7 @@ func HandleLogin(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	base64.StdEncoding.Decode(body, []byte(req.Body))
 	_ = json.Unmarshal(body, &creds)
 
-	log.Printf("BODY: %s\n", req.Body)
+	log.Printf("BODY: %s\n", body)
 	log.Printf("U: %s, P: %s\n", creds.Username, creds.Password)
 
 	ac, err := users.Login(&creds)
