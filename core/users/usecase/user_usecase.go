@@ -181,7 +181,9 @@ func (uc *userUsecase) Login(d *dto.UserCredentials) (*jwt.AccessToken, core.Err
 	claims.NotBefore = jwt.NewNumericTime(issued)
 	claims.Issued = jwt.NewNumericTime(issued)
 	claims.Expires = jwt.NewNumericTime(issued.Add(1 * time.Hour))
-	claims.Set["user_id"] = u.GetID()
+	claims.Set = map[string]interface{}{
+		"user_id": u.GetID(),
+	}
 
 	token := jwt.New(&claims)
 	if err := token.Sign(pk); err != nil {

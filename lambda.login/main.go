@@ -4,16 +4,14 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
-	"log"
 	"net/http"
 
+	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 
 	usrs "github.com/reecerussell/tw-management-system/core/users"
 	"github.com/reecerussell/tw-management-system/core/users/dto"
 	"github.com/reecerussell/tw-management-system/core/users/usecase"
-
-	"github.com/aws/aws-lambda-go/events"
 )
 
 var users usecase.UserUsecase
@@ -35,9 +33,6 @@ func HandleLogin(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	base64.StdEncoding.Decode(body, []byte(req.Body))
 	buf := bytes.NewBuffer(body)
 	_ = json.NewDecoder(buf).Decode(&creds)
-
-	log.Printf("BODY: %s\n", body)
-	log.Printf("U: %s, P: %s\n", creds.Username, creds.Password)
 
 	ac, err := users.Login(&creds)
 	if err != nil {
