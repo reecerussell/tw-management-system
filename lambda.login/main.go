@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/base64"
 	"encoding/json"
 	"log"
@@ -32,7 +33,8 @@ func HandleLogin(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	var creds dto.UserCredentials
 	body := make([]byte, base64.StdEncoding.DecodedLen(len(req.Body)))
 	base64.StdEncoding.Decode(body, []byte(req.Body))
-	_ = json.Unmarshal(body, &creds)
+	buf := bytes.NewBuffer(body)
+	_ = json.NewDecoder(buf).Decode(&creds)
 
 	log.Printf("BODY: %s\n", body)
 	log.Printf("U: %s, P: %s\n", creds.Username, creds.Password)
