@@ -1,10 +1,10 @@
 package main
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"log"
 	"net/http"
-	"strings"
 
 	"github.com/aws/aws-lambda-go/lambda"
 
@@ -30,8 +30,9 @@ func HandleLogin(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	var creds dto.UserCredentials
-	rdr := strings.NewReader(req.Body)
-	_ = json.NewDecoder(rdr).Decode(&creds)
+	body := make([]byte, base64.StdEncoding.DecodedLen(len(req.Body)))
+	base64.StdEncoding.Decode(body, []byte(req.Body))
+	_ = json.Unmarshal(body, &creds)
 
 	log.Printf("BODY: %s\n", req.Body)
 	log.Printf("U: %s, P: %s\n", creds.Username, creds.Password)
