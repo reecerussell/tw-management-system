@@ -2,6 +2,10 @@ package usecase
 
 import (
 	"net/http"
+	"os"
+	"time"
+
+	"github.com/reecerussell/tw-management-system/core/jwt"
 
 	"github.com/reecerussell/tw-management-system/core"
 	"github.com/reecerussell/tw-management-system/core/users/dto"
@@ -18,6 +22,7 @@ type UserUsecase interface {
 	Update(d *dto.User) core.Error
 	ChangePassword(d *dto.ChangePassword) core.Error
 	Delete(id string) core.Error
+	Login(d *dto.UserCredentials) (*jwt.AccessToken, core.Error)
 }
 
 type userUsecase struct {
@@ -135,4 +140,42 @@ func (uc *userUsecase) Delete(id string) core.Error {
 	}
 
 	return nil
+}
+
+// Login returns a new JWT access token for a user with matching credentials.
+func (uc *userUsecase) Login(d *dto.UserCredentials) (*jwt.AccessToken, core.Error) {
+	u, err := uc.repo.GetByUsername(d.Username)
+	if err != nil {
+		return nil, err
+	}
+
+	if verr := u.Verify(d.Password); verr != nil {
+		return nil, core.NewErrorWithStatus(verr, http.StatusBadRequest)
+	}
+
+	secret, terr := core.NewSecret(os.Getenv("AUTH_SECRET_NAME"))
+	if terr != nil {
+		return nil, core.NewError(terr)
+	}
+
+	pk, serr := secret.RSAPrivateKey("private")
+	if serr != nil {
+		return nil, core.NewError(serr)
+	}
+
+	var claims jwt.Claims
+	issued := time.Now().UTC()
+	claims.Audiences = []string{os.Getenv("JWT_AUDIENCE")}
+	claims.Issuer = os.Getenv("JWT_ISSUER")
+	claims.NotBefore = jwt.NewNumericTime(issued)
+	claims.Issued = jwt.NewNumericTime(issued)
+	claims.Expires = jwt.NewNumericTime(issued.Add(1 * time.Hour))
+	claims.Set["user_id"] = u.GetID()
+
+	token := jwt.New(&claims)
+	if err := token.Sign(pk); err != nil {
+		return nil, core.NewError(err)
+	}
+
+	return token.AccessToken(), nil
 }

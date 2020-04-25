@@ -68,6 +68,37 @@ func (r *UserRepository) Get(id string) (*model.User, core.Error) {
 	return model.UserFromDataModel(&dm), nil
 }
 
+// GetByUsername returns a specific user record from DynamoDB with the given username.
+func (r *UserRepository) GetByUsername(username string) (*model.User, core.Error) {
+	result, err := r.client.GetItem(&dynamodb.GetItemInput{
+		TableName: aws.String(repository.TableName),
+		Key: map[string]*dynamodb.AttributeValue{
+			"username": {
+				S: aws.String(username),
+			},
+		},
+	})
+	if err != nil {
+		r.errLog.Printf("failed to get user from dynamo: %v", err)
+		return nil, core.NewError(err)
+	}
+
+	var dm datamodel.User
+
+	err = dynamodbattribute.UnmarshalMap(result.Item, &dm)
+	if err != nil {
+		r.errLog.Printf("failed to read user data: %v", err)
+		return nil, core.NewError(err)
+	}
+
+	if dm.ID == "" {
+		err = fmt.Errorf("no user was found with username: %s", username)
+		return nil, core.NewErrorWithStatus(err, http.StatusNotFound)
+	}
+
+	return model.UserFromDataModel(&dm), nil
+}
+
 // GetAll returns all user records from DynamoDB.
 func (r *UserRepository) GetAll() ([]*model.User, core.Error) {
 	proj := expression.NamesList(

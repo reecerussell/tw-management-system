@@ -11,6 +11,7 @@ const TableName = "users"
 // UserRepository is a high-level interface used to manage user data persistence.
 type UserRepository interface {
 	Get(id string) (*model.User, core.Error)
+	GetByUsername(username string) (*model.User, core.Error)
 	GetAll() ([]*model.User, core.Error)
 	Add(u *model.User) core.Error
 	Update(u *model.User) core.Error

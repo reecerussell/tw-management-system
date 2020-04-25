@@ -154,6 +154,19 @@ func (u *User) ChangePassword(current, new string) error {
 	return u.setPassword(new)
 }
 
+// Verify is used to verify a given password against the user's hash.
+func (u *User) Verify(password string) error {
+	if password == "" {
+		return fmt.Errorf("password is required")
+	}
+
+	if !verify(password, u.passwordHash) {
+		return fmt.Errorf("password is invalid")
+	}
+
+	return nil
+}
+
 func (u *User) setPassword(password string) error {
 	switch true {
 	case password == "":
