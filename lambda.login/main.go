@@ -30,11 +30,11 @@ func HandleLogin(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	var creds dto.UserCredentials
-
-	log.Printf("U: %s, P: %s\n", creds.Username, creds.Password)
-
 	rdr := strings.NewReader(req.Body)
 	_ = json.NewDecoder(rdr).Decode(&creds)
+
+	log.Printf("BODY: %s\n", req.Body)
+	log.Printf("U: %s, P: %s\n", creds.Username, creds.Password)
 
 	ac, err := users.Login(&creds)
 	if err != nil {
