@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"strings"
 
@@ -29,6 +30,9 @@ func HandleLogin(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	var creds dto.UserCredentials
+
+	log.Printf("U: %s, P: %s\n", creds.Username, creds.Password)
+
 	rdr := strings.NewReader(req.Body)
 	_ = json.NewDecoder(rdr).Decode(&creds)
 
