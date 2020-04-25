@@ -30,7 +30,7 @@ func HandleGetUser(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRes
 	if err != nil {
 		return events.APIGatewayProxyResponse{
 			StatusCode: err.Status(),
-			Body:       http.StatusText(http.StatusNotFound),
+			Body:       err.Message(),
 		}, nil
 	}
 
