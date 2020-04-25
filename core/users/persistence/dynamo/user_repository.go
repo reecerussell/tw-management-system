@@ -157,13 +157,13 @@ func (r *UserRepository) Update(u *model.User) core.Error {
 	dm := u.DataModel()
 	in := &dynamodb.UpdateItemInput{
 		ExpressionAttributeValues: map[string]*dynamodb.AttributeValue{
-			"username": {
+			":u": {
 				S: aws.String(dm.Username),
 			},
-			"email": {
+			":e": {
 				S: aws.String(dm.Email),
 			},
-			"passwordHash": {
+			":p": {
 				S: aws.String(dm.PasswordHash),
 			},
 		},
@@ -174,7 +174,7 @@ func (r *UserRepository) Update(u *model.User) core.Error {
 			},
 		},
 		ReturnValues:     aws.String("UPDATED_NEW"),
-		UpdateExpression: aws.String("updated user"),
+		UpdateExpression: aws.String("set username = :u, email = :e, passwordHash = :p"),
 	}
 
 	_, err := r.client.UpdateItem(in)
