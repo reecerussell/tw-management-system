@@ -30,7 +30,7 @@ func HandleGetUser(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRes
 	}
 	log.Printf("Method: %s\n", req.HTTPMethod)
 
-	id := req.PathParameters["id"]
+	id := req.QueryStringParameters["id"]
 	if id == "" {
 		return events.APIGatewayProxyResponse{
 			StatusCode: http.StatusNotFound,
