@@ -19,17 +19,7 @@ func init() {
 }
 
 func HandleGetUser(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	log.Println("Path Parameters")
-	for k, v := range req.PathParameters {
-		log.Printf("%s: %s", k, v)
-	}
-
-	log.Println("Query Parameters")
-	for k, v := range req.QueryStringParameters {
-		log.Printf("%s: %s", k, v)
-	}
-
-	id, ok := req.PathParameters["id"]
+	id, ok := req.QueryStringParameters["id"]
 	log.Printf("ID: %s, %v\n", id, ok)
 
 	if !ok || id == "" {
