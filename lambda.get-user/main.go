@@ -18,7 +18,15 @@ func init() {
 }
 
 func HandleGetUser(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	user, err := users.Get(req.QueryStringParameters["id"])
+	id := req.PathParameters["id"]
+	if id == "" {
+		return events.APIGatewayProxyResponse{
+			StatusCode: http.StatusNotFound,
+			Body:       http.StatusText(http.StatusNotFound),
+		}, nil
+	}
+
+	user, err := users.Get(id)
 	if err != nil {
 		return events.APIGatewayProxyResponse{
 			StatusCode: err.Status(),
