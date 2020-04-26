@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -18,6 +19,17 @@ func init() {
 }
 
 func HandleGetUser(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	log.Printf("Path: %v\n", req.Path)
+	log.Printf("Path Parameters: %d\n", len(req.PathParameters))
+	for k, v := range req.PathParameters {
+		log.Printf("%s: %s\n", k, v)
+	}
+	log.Printf("Query Strings: %d\n", len(req.QueryStringParameters))
+	for k, v := range req.QueryStringParameters {
+		log.Printf("%s: %s\n", k, v)
+	}
+	log.Printf("Method: %s\n", req.HTTPMethod)
+
 	id := req.PathParameters["id"]
 	if id == "" {
 		return events.APIGatewayProxyResponse{
