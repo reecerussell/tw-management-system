@@ -1,6 +1,14 @@
 import React from "react";
 
-// https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
-const routes = [];
+const UserList = React.lazy(() => import("./views/users/list"));
+
+const routes = [
+	{
+		path: "/users",
+		exact: true,
+		name: "Users",
+		component: UserList,
+	},
+];
 
 export default routes;

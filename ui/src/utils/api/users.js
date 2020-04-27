@@ -1,29 +1,9 @@
 import Fetch from "./fetch";
 
-const All = async (onError) => {
-	let data = null;
+const All = async (onSuccess, onError) =>
+	await Fetch("users", null, onSuccess, onError);
 
-	await Fetch(
-		"users",
-		null,
-		async (res) => (data = await res.json()),
-		onError
-	);
-
-	return data;
-};
-
-const Get = async (id, onError) => {
-	let data = null;
-
-	await Fetch(
-		"users/" + id,
-		null,
-		async (res) => (data = await res.json()),
-		onError
-	);
-
-	return data;
-};
+const Get = async (id, onSuccess, onError) =>
+	await Fetch("users/" + id, null, onSuccess, onError);
 
 export { All, Get };
