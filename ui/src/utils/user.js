@@ -1,4 +1,4 @@
-const AccessTokenCookieName = "mpp_ac";
+const AccessTokenCookieName = "twms_ac";
 
 const GetAccessToken = () => {
 	const value = document.cookie.match(
@@ -9,17 +9,16 @@ const GetAccessToken = () => {
 };
 
 const Login = (token, expires) => {
-	const d = new Date(expires);
+	expires *= 1000;
+	let d = new Date(expires);
+	d = d + d.getTimezoneOffset() * 60000;
+
 	document.cookie =
-		AccessTokenCookieName +
-		"=" +
-		token +
-		";path=/;expires=" +
-		d.toGMTString();
+		AccessTokenCookieName + "=" + token + ";path=/;expires=" + d;
 };
 
 const Logout = () => {
-	SetAccessToken(null, -1);
+	Login(null, -1);
 };
 
 const IsAuthenticated = () => {

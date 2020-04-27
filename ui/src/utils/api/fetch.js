@@ -47,8 +47,15 @@ const Fetch = async (
 				break;
 			default:
 				try {
-					const { error } = await res.json();
-					onFail(error);
+					if (
+						res.headers.get("Content-Type") === "application/json"
+					) {
+						const { message } = await res.json();
+						onFail(message);
+					} else {
+						const message = await res.text();
+						onFail(message);
+					}
 				} catch {
 					onFail("An error occured while reading the response.");
 				}
