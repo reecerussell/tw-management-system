@@ -27,17 +27,16 @@ func init() {
 
 
 func HandleLogin(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	if req.HTTPMethod != http.MethodPost {
-		return events.APIGatewayProxyResponse{
-			StatusCode: http.StatusMethodNotAllowed,
-			Body:       http.StatusText(http.StatusMethodNotAllowed),
-			Headers: core.CORSHeaders(http.MethodPost),
-		}, nil
+	var creds dto.UserCredentials
+	
+	body := make([]byte, base64.StdEncoding.DecodedLen(len(req.Body)))
+	log.Printf("Body: %v\n", req.Body)
+	if req.IsBase64Encoded {
+		base64.StdEncoding.Decode(body, []byte(req.Body))
+	} else {
+		body = []byte(req.Body)
 	}
 
-	var creds dto.UserCredentials
-	body := make([]byte, base64.StdEncoding.DecodedLen(len(req.Body)))
-	base64.StdEncoding.Decode(body, []byte(req.Body))
 	buf := bytes.NewBuffer(body)
 	_ = json.NewDecoder(buf).Decode(&creds)
 
