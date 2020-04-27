@@ -8,6 +8,7 @@ const loading = () => (
 );
 
 // Containers
+const Authorize = React.lazy(() => import("./containers/auth/authorize"));
 const Layout = React.lazy(() => import("./containers/layout"));
 
 // Pages
@@ -49,7 +50,11 @@ class App extends Component {
 						<Route
 							path="/"
 							name="Home"
-							render={(props) => <Layout {...props} />}
+							render={(props) => (
+								<Authorize>
+									<Layout {...props} />
+								</Authorize>
+							)}
 						/>
 					</Switch>
 				</React.Suspense>

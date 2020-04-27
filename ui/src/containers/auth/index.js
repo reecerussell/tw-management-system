@@ -1,3 +1,4 @@
 import LoginContainer from "./login";
+import AuthorizeContainer from "./authorize";
 
-export { LoginContainer };
+export { LoginContainer, AuthorizeContainer };
