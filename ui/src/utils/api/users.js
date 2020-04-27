@@ -6,4 +6,36 @@ const All = async (onSuccess, onError) =>
 const Get = async (id, onSuccess, onError) =>
 	await Fetch("users/" + id, null, onSuccess, onError);
 
-export { All, Get };
+const Create = async (data, onSuccess, onError) =>
+	await Fetch(
+		"users",
+		{
+			method: "POST",
+			body: JSON.stringify(data),
+		},
+		onSuccess,
+		onError
+	);
+
+const Update = async (data, onSuccess, onError) =>
+	await Fetch(
+		"users",
+		{
+			method: "PUT",
+			body: JSON.stringify(data),
+		},
+		onSuccess,
+		onError
+	);
+
+const Delete = async (id, onSuccess, onError) =>
+	await Fetch(
+		"users/" + id,
+		{
+			method: "DELETE",
+		},
+		onSuccess,
+		onError
+	);
+
+export { All, Get, Create, Update, Delete };

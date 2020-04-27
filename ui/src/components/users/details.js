@@ -1,8 +1,18 @@
 import React from "react";
-import { Row, Col, Input, FormGroup, Label } from "reactstrap";
+import {
+	Row,
+	Col,
+	Input,
+	FormGroup,
+	Label,
+	UncontrolledAlert,
+} from "reactstrap";
 
 const Details = ({ error, user }) => (
 	<>
+		{error !== null ? (
+			<UncontrolledAlert color="danger">{error}</UncontrolledAlert>
+		) : null}
 		<FormGroup>
 			<Row>
 				<Col md="3">
