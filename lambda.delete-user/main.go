@@ -23,20 +23,20 @@ func HandleUpdate(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResp
 	if id == "" {
 		err := core.NewErrorWithStatus(fmt.Errorf("missing 'id' value"), http.StatusBadRequest)
 		resp := err.Response()
-		resp.Headers = core.CORSHeaders(http.MethodPut)
+		resp.Headers = core.CORSHeaders(http.MethodDelete)
 		return resp, nil
 	}
 
 	err := users.Delete(id)
 	if err != nil {
 		resp := err.Response()
-		resp.Headers = core.CORSHeaders(http.MethodPut)
+		resp.Headers = core.CORSHeaders(http.MethodDelete)
 		return resp, nil
 	}
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
-		Headers:    core.CORSHeaders(http.MethodPut),
+		Headers:    core.CORSHeaders(http.MethodDelete),
 	}, nil
 }
 
