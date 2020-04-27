@@ -8,6 +8,7 @@ const LoginContainer = () => {
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [redirect, setRedirect] = useState(null);
 
 	const isValid = () => {
 		if (username === "") {
@@ -39,8 +40,8 @@ const LoginContainer = () => {
 			},
 			async (res) => {
 				const { accessToken, expires } = await res.json();
-				console.log(accessToken, expires);
 				SetLogin(accessToken, expires);
+				setRedirect("/");
 			},
 			setError
 		);
@@ -64,6 +65,7 @@ const LoginContainer = () => {
 
 	return (
 		<Login
+			redirect={redirect}
 			username={username}
 			password={password}
 			error={error}
