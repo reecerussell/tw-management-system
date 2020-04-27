@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Token } from "../../utils/api";
 import { Login } from "../../components/auth";
 import { Login as SetLogin } from "../../utils/user";
@@ -8,7 +8,7 @@ const LoginContainer = () => {
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
-	const [redirect, setRedirect] = useState(null);
+	const [data, setData] = useState(null);
 
 	const isValid = () => {
 		if (username === "") {
@@ -39,9 +39,7 @@ const LoginContainer = () => {
 				password,
 			},
 			async (res) => {
-				const { accessToken, expires } = await res.json();
-				SetLogin(accessToken, expires);
-				setRedirect("/");
+				setData(await res.json());
 			},
 			setError
 		);
@@ -63,9 +61,17 @@ const LoginContainer = () => {
 		}
 	};
 
+	useEffect(() => {
+		if (loading || !data) {
+			return;
+		}
+
+		const { accessToken, expires } = data;
+		SetLogin(accessToken, expires);
+	}, [data, loading]);
+
 	return (
 		<Login
-			redirect={redirect}
 			username={username}
 			password={password}
 			error={error}

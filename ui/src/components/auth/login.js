@@ -1,5 +1,4 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
 import {
 	Form,
 	InputGroup,
@@ -14,7 +13,6 @@ import {
 } from "reactstrap";
 
 const Login = ({
-	redirect,
 	error,
 	loading,
 	handleSubmit,
@@ -22,10 +20,6 @@ const Login = ({
 	username,
 	password,
 }) => {
-	if (redirect) {
-		return <Redirect to={redirect} />;
-	}
-
 	return (
 		<Form onSubmit={handleSubmit}>
 			<h1>Login</h1>

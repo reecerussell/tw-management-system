@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
-// import { renderRoutes } from 'react-router-config';
 import "./App.scss";
 
 const loading = () => (
@@ -13,7 +12,6 @@ const Layout = React.lazy(() => import("./containers/layout"));
 
 // Pages
 const Login = React.lazy(() => import("./views/pages/login"));
-// const Register = React.lazy(() => import("./views/Pages/Register"));
 // const Page404 = React.lazy(() => import("./views/Pages/Page404"));
 // const Page500 = React.lazy(() => import("./views/Pages/Page500"));
 
