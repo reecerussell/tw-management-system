@@ -7,6 +7,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 
+	"github.com/reecerussell/tw-management-system/core"
 	usrs "github.com/reecerussell/tw-management-system/core/users"
 	"github.com/reecerussell/tw-management-system/core/users/usecase"
 )
@@ -22,6 +23,7 @@ func HandleGetUser(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRes
 	if id == "" {
 		return events.APIGatewayProxyResponse{
 			StatusCode: http.StatusNotFound,
+			Headers:    core.CORSHeaders(http.MethodGet),
 			Body:       http.StatusText(http.StatusNotFound),
 		}, nil
 	}
@@ -30,6 +32,7 @@ func HandleGetUser(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRes
 	if err != nil {
 		return events.APIGatewayProxyResponse{
 			StatusCode: err.Status(),
+			Headers:    core.CORSHeaders(http.MethodGet),
 			Body:       err.Message(),
 		}, nil
 	}
@@ -37,6 +40,7 @@ func HandleGetUser(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRes
 	json, _ := json.Marshal(user)
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
+		Headers:    core.CORSHeaders(http.MethodGet),
 		Body:       string(json),
 	}, nil
 }
