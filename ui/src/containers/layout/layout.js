@@ -20,7 +20,6 @@ import navigation from "../../_nav";
 // routes config
 import routes from "../../routes";
 
-const Aside = React.lazy(() => import("./aside"));
 const Footer = React.lazy(() => import("./footer"));
 const Header = React.lazy(() => import("./header"));
 
@@ -78,11 +77,6 @@ const Layout = (props) => {
 						</Suspense>
 					</Container>
 				</main>
-				<AppAside fixed>
-					<Suspense fallback={loading()}>
-						<Aside />
-					</Suspense>
-				</AppAside>
 			</div>
 			<AppFooter>
 				<Suspense fallback={loading()}>

@@ -6,10 +6,10 @@ const defaultProps = {};
 const Footer = () => (
 	<>
 		<span>
-			<a href="https://coreui.io">CoreUI</a> &copy; 2019 creativeLabs.
+			<a href="#">Management System</a> &copy; 2020 Thames Water.
 		</span>
 		<span className="ml-auto">
-			Powered by <a href="https://coreui.io/react">CoreUI for React</a>
+			Developed by <a href="https://reece-russell.co.uk">Reece Russell</a>
 		</span>
 	</>
 );

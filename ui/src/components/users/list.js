@@ -21,7 +21,7 @@ const List = ({ error, users }) => (
 						<td>{user.username}</td>
 						<td>{user.email}</td>
 						<td>
-							<Link to={`/users/${user.id}/view`}>View</Link>
+							<Link to={`/users/${user.id}/details`}>View</Link>
 						</td>
 					</tr>
 				))}
