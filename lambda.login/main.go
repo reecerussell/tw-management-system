@@ -4,31 +4,27 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 
+	"github.com/reecerussell/tw-management-system/core"
 	usrs "github.com/reecerussell/tw-management-system/core/users"
 	"github.com/reecerussell/tw-management-system/core/users/dto"
 	"github.com/reecerussell/tw-management-system/core/users/usecase"
 )
 
 var users usecase.UserUsecase
-var corsHeaders = map[string]string{
-	"Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
-	"Access-Control-Allow-Methods": "POST"
-}
 
 func init() {
 	users = usrs.Usecase()
 }
 
-
-
 func HandleLogin(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	var creds dto.UserCredentials
-	
+
 	body := make([]byte, base64.StdEncoding.DecodedLen(len(req.Body)))
 	log.Printf("Body: %v\n", req.Body)
 	if req.IsBase64Encoded {
@@ -45,7 +41,7 @@ func HandleLogin(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return events.APIGatewayProxyResponse{
 			StatusCode: err.Status(),
 			Body:       err.Message(),
-			Headers: core.CORSHeaders(http.MethodPost),
+			Headers:    core.CORSHeaders(http.MethodPost),
 		}, nil
 	}
 
@@ -54,7 +50,7 @@ func HandleLogin(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
 		Body:       string(data),
-		Headers: core.CORSHeaders(http.MethodPost),
+		Headers:    core.CORSHeaders(http.MethodPost),
 	}, nil
 }
 
