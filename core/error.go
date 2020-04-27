@@ -1,10 +1,17 @@
 package core
 
+import (
+	"encoding/json"
+
+	"github.com/aws/aws-lambda-go/events"
+)
+
 // Error is a custom error type, used to more descriptively define errors.
 type Error interface {
 	Err() error
 	Message() string
 	Status() int
+	Response() events.APIGatewayProxyResponse
 }
 
 // NewError returns a new instance of Error.
@@ -34,6 +41,11 @@ func (be *basicError) Status() int {
 	return 500
 }
 
+// Response returns an APIGatewayProxyResponse for the error.
+func (be *basicError) Response() events.APIGatewayProxyResponse {
+	return createResponse(be.Message(), be.Status())
+}
+
 // NewErrorWithStatus returns a new Error with the given status code and error.
 func NewErrorWithStatus(err error, status int) Error {
 	return &statusError{
@@ -61,4 +73,23 @@ func (se *statusError) Message() string {
 // Status returns the error's status code.
 func (se *statusError) Status() int {
 	return se.status
+}
+
+// Response returns an APIGatewayProxyResponse for the error.
+func (se *statusError) Response() events.APIGatewayProxyResponse {
+	return createResponse(se.Message(), se.Status())
+}
+
+type httpResponse struct {
+	Message string `json:"message"`
+}
+
+func createResponse(message string, status int) events.APIGatewayProxyResponse {
+	data := &httpResponse{Message: message}
+	bytes, _ := json.Marshal(data)
+
+	return events.APIGatewayProxyResponse{
+		StatusCode: status,
+		Body:       string(bytes),
+	}
 }
