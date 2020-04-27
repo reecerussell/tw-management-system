@@ -15,16 +15,23 @@ import (
 )
 
 var users usecase.UserUsecase
+var corsHeaders = map[string]string{
+	"Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+	"Access-Control-Allow-Methods": "POST"
+}
 
 func init() {
 	users = usrs.Usecase()
 }
+
+
 
 func HandleLogin(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	if req.HTTPMethod != http.MethodPost {
 		return events.APIGatewayProxyResponse{
 			StatusCode: http.StatusMethodNotAllowed,
 			Body:       http.StatusText(http.StatusMethodNotAllowed),
+			Headers: core.CORSHeaders(http.MethodPost),
 		}, nil
 	}
 
@@ -39,6 +46,7 @@ func HandleLogin(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return events.APIGatewayProxyResponse{
 			StatusCode: err.Status(),
 			Body:       err.Message(),
+			Headers: core.CORSHeaders(http.MethodPost),
 		}, nil
 	}
 
@@ -47,6 +55,7 @@ func HandleLogin(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
 		Body:       string(data),
+		Headers: core.CORSHeaders(http.MethodPost),
 	}, nil
 }
 
