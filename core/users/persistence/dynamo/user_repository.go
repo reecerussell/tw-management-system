@@ -132,7 +132,7 @@ func (r *UserRepository) GetAll() ([]*model.User, core.Error) {
 
 // Add inserts a user record into DynamoDB.
 func (r *UserRepository) Add(u *model.User) core.Error {
-	av, err := dynamodbattribute.MarshalMap(u)
+	av, err := dynamodbattribute.MarshalMap(u.DataModel())
 	if err != nil {
 		r.errLog.Printf("failed to marshal user data: %v", err)
 		return core.NewError(err)
