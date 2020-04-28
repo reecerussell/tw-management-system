@@ -1,6 +1,7 @@
 import React from "react";
 import { ListContainer } from "../../containers/users";
-import { Card, Col, Row, CardHeader, CardBody } from "reactstrap";
+import { Card, Col, Row, CardHeader, CardBody, CardFooter } from "reactstrap";
+import { Link } from "react-router-dom";
 
 const List = () => (
 	<Row>
@@ -10,6 +11,9 @@ const List = () => (
 				<CardBody>
 					<ListContainer />
 				</CardBody>
+				<CardFooter>
+					<Link to="/users/create">Create new user</Link>
+				</CardFooter>
 			</Card>
 		</Col>
 	</Row>

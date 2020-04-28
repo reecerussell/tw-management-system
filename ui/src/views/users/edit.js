@@ -3,7 +3,7 @@ import { EditContainer } from "../../containers/users";
 import { Col, Row } from "reactstrap";
 import { useParams } from "react-router-dom";
 
-const List = () => {
+const Edit = () => {
 	const { id } = useParams();
 
 	return (
@@ -15,4 +15,4 @@ const List = () => {
 	);
 };
 
-export default List;
+export default Edit;

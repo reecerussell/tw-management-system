@@ -3,6 +3,7 @@ import React from "react";
 const UserList = React.lazy(() => import("./views/users/list"));
 const UserDetails = React.lazy(() => import("./views/users/details"));
 const UserEdit = React.lazy(() => import("./views/users/edit"));
+const UserCreate = React.lazy(() => import("./views/users/create"));
 
 const routes = [
 	{
@@ -20,6 +21,11 @@ const routes = [
 		exact: true,
 		name: "Users",
 		component: UserList,
+	},
+	{
+		path: "/users/create",
+		name: "Create",
+		component: UserCreate,
 	},
 	{
 		path: "/users/:id/details",

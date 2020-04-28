@@ -3,7 +3,7 @@ import { DetailsContainer } from "../../containers/users";
 import { Card, Col, Row, CardHeader, CardBody, CardFooter } from "reactstrap";
 import { useParams, Link } from "react-router-dom";
 
-const List = () => {
+const Details = () => {
 	const { id } = useParams();
 
 	return (
@@ -25,4 +25,4 @@ const List = () => {
 	);
 };
 
-export default List;
+export default Details;
