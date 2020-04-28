@@ -38,4 +38,15 @@ const Delete = async (id, onSuccess, onError) =>
 		onError
 	);
 
-export { All, Get, Create, Update, Delete };
+const ChangePassword = async (data, onSuccess, onError) =>
+	await Fetch(
+		"users/password",
+		{
+			method: "POST",
+			body: JSON.stringify(data),
+		},
+		onSuccess,
+		onError
+	);
+
+export { All, Get, Create, Update, Delete, ChangePassword };

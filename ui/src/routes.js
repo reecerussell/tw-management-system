@@ -4,6 +4,9 @@ const UserList = React.lazy(() => import("./views/users/list"));
 const UserDetails = React.lazy(() => import("./views/users/details"));
 const UserEdit = React.lazy(() => import("./views/users/edit"));
 const UserCreate = React.lazy(() => import("./views/users/create"));
+const UserChangePassword = React.lazy(() =>
+	import("./views/users/changePassword")
+);
 
 const routes = [
 	{
@@ -36,6 +39,12 @@ const routes = [
 		path: "/users/:id/edit",
 		name: "Edit",
 		component: UserEdit,
+	},
+	{
+		path: "/changePassword",
+		name: "Change Password",
+		exact: true,
+		component: UserChangePassword,
 	},
 ];
 

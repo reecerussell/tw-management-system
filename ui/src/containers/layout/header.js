@@ -50,6 +50,9 @@ const Header = ({ onLogout }) => (
 					<DropdownItem header tag="div" className="text-center">
 						<strong>Account</strong>
 					</DropdownItem>
+					<DropdownItem tag={Link} to="/changePassword">
+						<i className="fa fa-key"></i> Change Password
+					</DropdownItem>
 					<DropdownItem onClick={(e) => onLogout(e)}>
 						<i className="fa fa-lock"></i> Logout
 					</DropdownItem>

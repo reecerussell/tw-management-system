@@ -35,4 +35,22 @@ const Listen = (callback) => listeners.push(callback);
 
 const triggerListeners = () => listeners.forEach((c) => c());
 
-export { GetAccessToken, Login, Logout, IsAuthenticated, Listen };
+const GetId = () => getCurrentPayload()["user_id"];
+
+const getCurrentPayload = () => {
+	const token = GetAccessToken();
+	if (!token) {
+		return null;
+	}
+
+	const parts = token.split(".");
+	if (parts.length < 2) {
+		return null;
+	}
+
+	const payloadData = atob(parts[1]);
+
+	return JSON.parse(payloadData);
+};
+
+export { GetAccessToken, Login, Logout, IsAuthenticated, Listen, GetId };
