@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"time"
@@ -14,6 +15,10 @@ import (
 	"github.com/reecerussell/tw-management-system/core/users/repository"
 	"github.com/reecerussell/tw-management-system/core/users/service"
 )
+
+// DefaultLoginError is a standard error used when login failed. It prevents
+// the details of the failure being exposed.
+const DefaultLoginError = "Your username and/or password is incorrect."
 
 // UserUsecase is a high-level interface used to manage user records.
 type UserUsecase interface {
@@ -152,26 +157,50 @@ func (uc *userUsecase) Login(d *dto.UserCredentials) (*jwt.AccessToken, core.Err
 
 	u, err := uc.repo.GetByUsername(d.Username)
 	if err != nil {
+		log.Printf("failed to get user: %s", err.Message())
+		if err.Status() == http.StatusNotFound {
+			return nil, core.NewErrorWithStatus(
+				fmt.Errorf(DefaultLoginError),
+				http.StatusBadRequest,
+			)
+		}
+
 		return nil, err
 	}
 
 	if verr := u.Verify(d.Password); verr != nil {
-		return nil, core.NewErrorWithStatus(verr, http.StatusBadRequest)
+		log.Printf("failed to verify user: %s", err.Message())
+		return nil, core.NewErrorWithStatus(
+			fmt.Errorf(DefaultLoginError),
+			http.StatusBadRequest,
+		)
 	}
 
 	err = uc.repo.Update(u)
 	if err != nil {
-		return nil, err
+		log.Printf("failed to update user: %s", err.Message())
+		return nil, core.NewErrorWithStatus(
+			fmt.Errorf(DefaultLoginError),
+			http.StatusBadRequest,
+		)
 	}
 
 	secret, terr := core.NewSecret(os.Getenv("AUTH_SECRET_NAME"))
 	if terr != nil {
-		return nil, core.NewError(terr)
+		log.Printf("failed to get secret: %v", terr)
+		return nil, core.NewErrorWithStatus(
+			fmt.Errorf(DefaultLoginError),
+			http.StatusBadRequest,
+		)
 	}
 
 	pk, serr := secret.RSAPrivateKey("private")
 	if serr != nil {
-		return nil, core.NewError(serr)
+		log.Printf("failed to get private key: %v", err)
+		return nil, core.NewErrorWithStatus(
+			fmt.Errorf(DefaultLoginError),
+			http.StatusBadRequest,
+		)
 	}
 
 	var claims jwt.Claims
