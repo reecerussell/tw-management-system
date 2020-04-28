@@ -22,7 +22,7 @@ func init() {
 	users = usrs.Usecase()
 }
 
-func HandleCreate(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func HandleChangePassword(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	var data dto.ChangePassword
 
 	body := make([]byte, base64.StdEncoding.DecodedLen(len(req.Body)))
@@ -50,5 +50,5 @@ func HandleCreate(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResp
 }
 
 func main() {
-	lambda.Start(HandleCreate)
+	lambda.Start(HandleChangePassword)
 }
