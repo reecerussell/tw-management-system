@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import {
-	Badge,
 	UncontrolledDropdown,
 	DropdownItem,
 	DropdownMenu,
@@ -9,11 +8,7 @@ import {
 	Nav,
 	NavItem,
 } from "reactstrap";
-import {
-	AppAsideToggler,
-	AppNavbarBrand,
-	AppSidebarToggler,
-} from "@coreui/react";
+import { AppNavbarBrand, AppSidebarToggler } from "@coreui/react";
 import logo from "../../assets/img/brand/logo.svg";
 import sygnet from "../../assets/img/brand/sygnet.svg";
 

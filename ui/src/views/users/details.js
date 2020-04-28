@@ -8,7 +8,7 @@ const Details = () => {
 
 	return (
 		<Row>
-			<Col md="4">
+			<Col lg="4">
 				<Card>
 					<CardHeader>User</CardHeader>
 					<CardBody>

@@ -14,7 +14,7 @@ const DetailsContainer = ({ id }) => {
 
 	useEffect(() => {
 		Api.Users.Get(id, async (res) => setUser(await res.json()), setError);
-	}, []);
+	}, [id]);
 
 	return <Details user={user} error={error} />;
 };

@@ -8,7 +8,7 @@ const Edit = () => {
 
 	return (
 		<Row>
-			<Col md="4">
+			<Col lg="4">
 				<EditContainer id={id} />
 			</Col>
 		</Row>

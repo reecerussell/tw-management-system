@@ -49,7 +49,7 @@ const EditContainer = ({ id }) => {
 
 	useEffect(() => {
 		Api.Users.Get(id, async (res) => setUser(await res.json()), setError);
-	}, []);
+	}, [id]);
 
 	if (!user) {
 		return null;

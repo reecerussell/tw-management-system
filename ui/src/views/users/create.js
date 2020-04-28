@@ -5,7 +5,7 @@ import { Col, Row } from "reactstrap";
 const Create = () => {
 	return (
 		<Row>
-			<Col md="4">
+			<Col lg="4">
 				<CreateContainer />
 			</Col>
 		</Row>
