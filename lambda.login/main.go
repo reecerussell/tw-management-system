@@ -38,11 +38,9 @@ func HandleLogin(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	ac, err := users.Login(&creds)
 	if err != nil {
-		return events.APIGatewayProxyResponse{
-			StatusCode: err.Status(),
-			Body:       err.Message(),
-			Headers:    core.CORSHeaders(http.MethodPost),
-		}, nil
+		resp := err.Response()
+		resp.Headers = core.CORSHeaders(http.MethodPost)
+		return resp, nil
 	}
 
 	data, _ := json.Marshal(ac)
