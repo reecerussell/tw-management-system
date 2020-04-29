@@ -10,5 +10,10 @@ export default {
 			url: "/users",
 			icon: "icon-user",
 		},
+		{
+			name: "Queue Busters",
+			url: "/queueBusters",
+			icon: "icon-list",
+		},
 	],
 };

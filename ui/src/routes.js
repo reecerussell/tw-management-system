@@ -8,6 +8,8 @@ const UserChangePassword = React.lazy(() =>
 	import("./views/users/changePassword")
 );
 
+const QueueBustersList = React.lazy(() => import("./views/queueBusters/list"));
+
 const routes = [
 	{
 		path: "/",
@@ -45,6 +47,12 @@ const routes = [
 		name: "Change Password",
 		exact: true,
 		component: UserChangePassword,
+	},
+	{
+		path: "/queueBusters",
+		name: "Queue Busters",
+		exact: true,
+		component: QueueBustersList,
 	},
 ];
 
