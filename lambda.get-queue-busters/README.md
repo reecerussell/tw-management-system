@@ -21,4 +21,4 @@ A successful response will have an OK (200) status code, with an array of object
 
 ## Permissions
 
-This lambda function requires full read/write access to DynamoDB.
+This lambda function requires read access to DynamoDB.
