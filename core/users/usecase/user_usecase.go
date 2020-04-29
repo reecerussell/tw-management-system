@@ -7,9 +7,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/reecerussell/tw-management-system/core/jwt"
-
 	"github.com/reecerussell/tw-management-system/core"
+	"github.com/reecerussell/tw-management-system/core/jwt"
 	"github.com/reecerussell/tw-management-system/core/users/dto"
 	"github.com/reecerussell/tw-management-system/core/users/model"
 	"github.com/reecerussell/tw-management-system/core/users/repository"
@@ -169,7 +168,7 @@ func (uc *userUsecase) Login(d *dto.UserCredentials) (*jwt.AccessToken, core.Err
 	}
 
 	if verr := u.Verify(d.Password); verr != nil {
-		log.Printf("failed to verify user: %s", err.Message())
+		log.Printf("failed to verify user: %s", verr.Message())
 		return nil, core.NewErrorWithStatus(
 			fmt.Errorf(DefaultLoginError),
 			http.StatusBadRequest,
