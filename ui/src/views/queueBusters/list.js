@@ -1,6 +1,7 @@
 import React from "react";
-import { Row, Col, Card, CardHeader, CardBody } from "reactstrap";
+import { Row, Col, Card, CardHeader, CardBody, CardFooter } from "reactstrap";
 import { ListContainer } from "../../containers/queueBusters";
+import { Link } from "react-router-dom";
 
 const List = () => (
 	<Row>
@@ -10,6 +11,11 @@ const List = () => (
 				<CardBody>
 					<ListContainer />
 				</CardBody>
+				<CardFooter>
+					<Link to="/queueBusters/create">
+						Create new queue buster
+					</Link>
+				</CardFooter>
 			</Card>
 		</Col>
 	</Row>

@@ -1,14 +1,14 @@
 import Fetch from "./fetch";
 
 const Get = async (department, onSuccess, onError) =>
-	await Fetch("queuebusters/" + department, null, onSuccess, onError);
+	await Fetch("queuebuster/" + department, null, onSuccess, onError);
 
 const GetAll = async (onSuccess, onError) =>
-	await Fetch("queuebusters", null, onSuccess, onError);
+	await Fetch("queuebuster", null, onSuccess, onError);
 
 const Create = async (data, onSuccess, onError) =>
 	await Fetch(
-		"queuebusters",
+		"queuebuster",
 		{
 			method: "POST",
 			body: JSON.stringify(data),
@@ -19,7 +19,7 @@ const Create = async (data, onSuccess, onError) =>
 
 const Enable = async (department, onSuccess, onError) =>
 	await Fetch(
-		"queuebusters/enable/" + department,
+		"queuebuster/enable/" + department,
 		{
 			method: "POST",
 		},
@@ -29,7 +29,7 @@ const Enable = async (department, onSuccess, onError) =>
 
 const Disable = async (department, onSuccess, onError) =>
 	await Fetch(
-		"queuebusters/disable/" + department,
+		"queuebuster/disable/" + department,
 		{
 			method: "POST",
 		},
@@ -39,7 +39,7 @@ const Disable = async (department, onSuccess, onError) =>
 
 const Delete = async (department, onSuccess, onError) =>
 	await Fetch(
-		"queuebusters/" + department,
+		"queuebuster/" + department,
 		{
 			method: "DELETE",
 		},

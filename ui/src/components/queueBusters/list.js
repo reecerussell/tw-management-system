@@ -27,7 +27,7 @@ const List = ({ error, loading, items }) => (
 							<td>{qb.enabled ? "yes" : "no"}</td>
 							<td>
 								<Link
-									to={`queueBuster/${qb.department}/details`}
+									to={`queueBusters/${qb.department}/details`}
 								>
 									View
 								</Link>
