@@ -168,7 +168,7 @@ func (uc *userUsecase) Login(d *dto.UserCredentials) (*jwt.AccessToken, core.Err
 	}
 
 	if verr := u.Verify(d.Password); verr != nil {
-		log.Printf("failed to verify user: %s", verr.Message())
+		log.Printf("failed to verify user: %s", verr.Error())
 		return nil, core.NewErrorWithStatus(
 			fmt.Errorf(DefaultLoginError),
 			http.StatusBadRequest,
