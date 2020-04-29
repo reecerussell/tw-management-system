@@ -55,7 +55,7 @@ func (qb *QueueBuster) Disable() core.Error {
 		)
 	}
 
-	qb.enabled = true
+	qb.enabled = false
 
 	return nil
 }
