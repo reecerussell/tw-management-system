@@ -23,7 +23,7 @@ func init() {
 
 // Handle is the lambda function handler.
 func Handle(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	department := decode(req.PathParameters["department"])
+	department, _ := url.QueryUnescape(req.PathParameters["department"])
 	if department == "" {
 		resp := core.NewErrorWithStatus(
 			fmt.Errorf("missing department"),
@@ -48,12 +48,6 @@ func Handle(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, 
 		Headers:    core.CORSHeaders(http.MethodGet),
 		Body:       string(data),
 	}, nil
-}
-
-// decode attempts to decode the input in a hacky way :/
-func decode(in string) string {
-	t, _ := url.Parse(fmt.Sprintf("https://example.com/q=%s", in))
-	return t.Query().Get("q")
 }
 
 func main() {
