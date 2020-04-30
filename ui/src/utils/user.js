@@ -29,9 +29,10 @@ const IsAuthenticated = () => {
 	return GetAccessToken() !== null;
 };
 
-const listeners = [];
+const listeners = new Map();
 
-const Listen = (callback) => listeners.push(callback);
+const Listen = (name, callback) => listeners.set(name, callback);
+const Unlisten = (name) => listeners.delete(name);
 
 const triggerListeners = () => listeners.forEach((c) => c());
 
@@ -53,4 +54,12 @@ const getCurrentPayload = () => {
 	return JSON.parse(payloadData);
 };
 
-export { GetAccessToken, Login, Logout, IsAuthenticated, Listen, GetId };
+export {
+	GetAccessToken,
+	Login,
+	Logout,
+	IsAuthenticated,
+	Listen,
+	Unlisten,
+	GetId,
+};

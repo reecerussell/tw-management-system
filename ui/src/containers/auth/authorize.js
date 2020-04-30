@@ -1,5 +1,5 @@
-import React, { Suspense, useState } from "react";
-import { IsAuthenticated, Listen } from "../../utils/user";
+import React, { Suspense, useState, useEffect } from "react";
+import { IsAuthenticated, Listen, Unlisten } from "../../utils/user";
 import PropTypes from "prop-types";
 
 const LoginView = React.lazy(() => import("../../views/pages/login"));
@@ -11,7 +11,12 @@ const defaultProps = {};
 
 const AuthorizeContainer = ({ children }) => {
 	const [state, setState] = useState(0);
-	Listen(() => setState(state + 1));
+
+	useEffect(() => {
+		Listen("auth", () => setState(state + 1));
+
+		return () => Unlisten("auth");
+	}, []);
 
 	if (!IsAuthenticated()) {
 		return (
