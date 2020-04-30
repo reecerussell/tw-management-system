@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -30,6 +31,8 @@ func Handle(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, 
 		resp.Headers = core.CORSHeaders(http.MethodGet)
 		return resp, nil
 	}
+
+	log.Printf("Getting queue buster for department '%s'", department)
 
 	qb, err := queueBusters.Get(department)
 	if err != nil {
