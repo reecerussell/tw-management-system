@@ -1,5 +1,7 @@
 import React from "react";
 
+const Dashboard = React.lazy(() => import("./views/pages/dashboard"));
+
 const UserList = React.lazy(() => import("./views/users/list"));
 const UserDetails = React.lazy(() => import("./views/users/details"));
 const UserEdit = React.lazy(() => import("./views/users/edit"));
@@ -25,7 +27,7 @@ const routes = [
 	{
 		path: "/dashboard",
 		name: "Dashboard",
-		component: UserList,
+		component: Dashboard,
 	},
 	{
 		path: "/users",
