@@ -12,6 +12,9 @@ const QueueBustersList = React.lazy(() => import("./views/queueBusters/list"));
 const QueueBustersDetails = React.lazy(() =>
 	import("./views/queueBusters/details")
 );
+const QueueBustersCreate = React.lazy(() =>
+	import("./views/queueBusters/create")
+);
 
 const routes = [
 	{
@@ -56,6 +59,11 @@ const routes = [
 		name: "Queue Busters",
 		exact: true,
 		component: QueueBustersList,
+	},
+	{
+		path: "/queueBusters/create",
+		name: "Create",
+		component: QueueBustersCreate,
 	},
 	{
 		path: "/queueBusters/:department/details",
