@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Token } from "../../utils/api";
 import { Login } from "../../components/auth";
-import { Login as SetLogin } from "../../utils/user";
+import { useLocation, Redirect } from "react-router-dom";
+import { Login as SetLogin, IsAuthenticated } from "../../utils/user";
 
 const LoginContainer = () => {
 	const [username, setUsername] = useState("");
@@ -9,6 +10,7 @@ const LoginContainer = () => {
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState(null);
+	const { pathname } = useLocation();
 
 	const isValid = () => {
 		if (username === "") {
@@ -69,6 +71,10 @@ const LoginContainer = () => {
 		const { accessToken, expires } = data;
 		SetLogin(accessToken, expires);
 	}, [data, loading]);
+
+	if (pathname === "/login" && IsAuthenticated()) {
+		return <Redirect to="/dashboard" />;
+	}
 
 	return (
 		<Login

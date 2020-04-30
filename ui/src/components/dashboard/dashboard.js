@@ -42,14 +42,18 @@ const Dashboard = ({ error, items }) => (
 							<div className="callout callout-info">
 								<small className="text-muted">Active</small>
 								<br />
-								<strong className="h4">9,123</strong>
+								<strong className="h4">
+									{items.filter((x) => x.enabled).length}
+								</strong>
 							</div>
 						</Col>
 						<Col sm="6">
 							<div className="callout callout-danger">
 								<small className="text-muted">Disabled</small>
 								<br />
-								<strong className="h4">3456</strong>
+								<strong className="h4">
+									{items.filter((x) => !x.enabled).length}
+								</strong>
 							</div>
 						</Col>
 					</Row>
