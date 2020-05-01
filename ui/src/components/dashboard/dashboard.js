@@ -58,11 +58,7 @@ const Dashboard = ({ error, items }) => (
 						</Col>
 					</Row>
 					<hr className="mt-0" />
-					<Table
-						hover
-						responsive
-						className="table-outline mb-0 d-none d-sm-table"
-					>
+					<Table hover responsive className="table-outline mb-0">
 						<thead className="thead-light">
 							<tr>
 								<th>Department</th>
