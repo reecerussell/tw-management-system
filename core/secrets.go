@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"encoding/pem"
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -61,11 +60,7 @@ func NewSecret(name string) (*Secret, error) {
 // RSAPublicKey returns an *rsa.PublicKey using the data from the
 // Secret with the given key.
 func (s Secret) RSAPublicKey(key string) (*rsa.PublicKey, error) {
-	log.Println("------------------- FORMATTED DATA --------------------")
-	log.Printf(s[key])
-	data := []byte(formatRSAPublicKeyData(s[key]))
-	log.Println("------------------- FORMATTED DATA --------------------")
-	log.Printf(formatRSAPublicKeyData(s[key]))
+	data := []byte(formatRSAData(s[key]))
 	block, _ := pem.Decode(data)
 	if block == nil {
 		return nil, fmt.Errorf("invalid key format")
@@ -82,11 +77,7 @@ func (s Secret) RSAPublicKey(key string) (*rsa.PublicKey, error) {
 // RSAPrivateKey returns an *rsa.PrivateKey using the data from the
 // Secret with the given key.
 func (s Secret) RSAPrivateKey(key string) (*rsa.PrivateKey, error) {
-	log.Println("------------------- FORMATTED DATA --------------------")
-	log.Printf(s[key])
-	data := []byte(formatRSAPrivateKeyData(s[key]))
-	log.Println("------------------- FORMATTED DATA --------------------")
-	log.Printf(formatRSAPrivateKeyData(s[key]))
+	data := []byte(formatRSAData(s[key]))
 	block, _ := pem.Decode(data)
 	if block == nil {
 		return nil, fmt.Errorf("invalid key format")
@@ -100,7 +91,7 @@ func (s Secret) RSAPrivateKey(key string) (*rsa.PrivateKey, error) {
 	return pk, nil
 }
 
-func formatRSAPrivateKeyData(in string) string {
+func formatRSAData(in string) string {
 	parts := strings.Split(in, " ")
 	partCount := len(parts)
 
@@ -109,15 +100,4 @@ func formatRSAPrivateKeyData(in string) string {
 		data += "\n" + parts[i]
 	}
 	return data + "\n" + strings.Join(parts[partCount-4:], " ")
-}
-
-func formatRSAPublicKeyData(in string) string {
-	parts := strings.Split(in, " ")
-	partCount := len(parts)
-
-	data := strings.Join(parts[:3], " ")
-	for i := 3; i < partCount-3; i++ {
-		data += "\n" + parts[i]
-	}
-	return data + "\n" + strings.Join(parts[partCount-3:], " ")
 }
