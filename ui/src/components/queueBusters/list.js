@@ -24,7 +24,7 @@ const List = ({ error, loading, items }) => (
 					items.map((qb, idx) => (
 						<tr key={idx}>
 							<td>{qb.department}</td>
-							<td>{qb.enabled ? "yes" : "no"}</td>
+							<td>{qb.enabled ? "Yes" : "No"}</td>
 							<td>
 								<Link
 									to={`queueBusters/${qb.department}/details`}
