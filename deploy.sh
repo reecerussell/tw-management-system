@@ -4,20 +4,20 @@
 # Builds and deploys all of the lambda functions and assumes they all exist.
 #
 
-AUTHORIZER_NAME=authorizer
-LOGIN_NAME=login
-CHANGE_PASSWORD_NAME=change-password
-CREATE_USER_NAME=create-user
-DELETE_USER_NAME=delete-user
-GET_USER_NAME=get-user
-GET_USERS_NAME=get-users
-UPDATE_NAME=update-user
-CREATE_QB_NAME=create-queue-buster
-DELETE_QB_NAME=delete-queue-buster
-GET_QB_NAME=get-queue-buster
-GET_QBS_NAME=get-queue-busters
-ENABLE_QB_NAME=enable-queue-buster
-DISABLE_QB_NAME=disable-queue-buster
+AUTHORIZER_NAME=tw-authorizer
+LOGIN_NAME=tw-login
+CHANGE_PASSWORD_NAME=tw-change-password
+CREATE_USER_NAME=tw-create-user
+DELETE_USER_NAME=tw-delete-user
+GET_USER_NAME=tw-get-user
+GET_USERS_NAME=tw-get-users
+UPDATE_NAME=tw-update-user
+CREATE_QB_NAME=tw-create-queue-buster
+DELETE_QB_NAME=tw-delete-queue-buster
+GET_QB_NAME=tw-get-queue-buster
+GET_QBS_NAME=tw-get-queue-busters
+ENABLE_QB_NAME=tw-enable-queue-buster
+DISABLE_QB_NAME=tw-disable-queue-buster
 
 # Authorizer
 env GOOS=linux GOARCH=amd64 go build -o /tmp/main lambda.authorizer/main.go
