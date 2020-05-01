@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"encoding/pem"
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -77,7 +78,11 @@ func (s Secret) RSAPublicKey(key string) (*rsa.PublicKey, error) {
 // RSAPrivateKey returns an *rsa.PrivateKey using the data from the
 // Secret with the given key.
 func (s Secret) RSAPrivateKey(key string) (*rsa.PrivateKey, error) {
+	log.Println("------------------- FORMATTED DATA --------------------")
+	log.Printf(s[key])
 	data := []byte(formatRSAData(s[key]))
+	log.Println("------------------- FORMATTED DATA --------------------")
+	log.Printf(formatRSAData(s[key]))
 	block, _ := pem.Decode(data)
 	if block == nil {
 		return nil, fmt.Errorf("invalid key format")
