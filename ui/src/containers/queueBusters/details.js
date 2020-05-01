@@ -20,13 +20,8 @@ const DetailsContainer = ({ department }) => {
 			setError
 		);
 
-	const handleEnable = async (e) => {
+	const handleToggle = async (e) => {
 		e.preventDefault();
-
-		if (queueBuster.enabled) {
-			setError("Queue Buster is already enabled.");
-			return;
-		}
 
 		if (loading) {
 			return;
@@ -34,26 +29,10 @@ const DetailsContainer = ({ department }) => {
 
 		setLoading(true);
 
-		await Api.QueueBusters.Enable(department, fetchQueueBuster, setError);
-
-		setLoading(false);
-	};
-
-	const handleDisable = async (e) => {
-		e.preventDefault();
-
-		if (!queueBuster.enabled) {
-			setError("Queue Buster is already disabled.");
-			return;
-		}
-
-		if (loading) {
-			return;
-		}
-
-		setLoading(true);
-
-		await Api.QueueBusters.Disable(department, fetchQueueBuster, setError);
+		const toggle = queueBuster.enabled
+			? Api.QueueBusters.Disable
+			: Api.QueueBusters.Enable;
+		await toggle(department, fetchQueueBuster, setError);
 
 		setLoading(false);
 	};
@@ -76,8 +55,7 @@ const DetailsContainer = ({ department }) => {
 		<Details
 			error={error}
 			queueBuster={queueBuster}
-			handleDisable={handleDisable}
-			handleEnable={handleEnable}
+			handleToggle={handleToggle}
 		/>
 	);
 };

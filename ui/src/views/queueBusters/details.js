@@ -8,7 +8,7 @@ const Details = () => {
 
 	return (
 		<Row>
-			<Col lg="4">
+			<Col md="4">
 				<DetailsContainer department={department} />
 			</Col>
 		</Row>

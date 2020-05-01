@@ -68,6 +68,8 @@ const Create = ({
 									color={"info"}
 									checked={enabled}
 									onChange={handleUpdateEnabled}
+									dataOn="Yes"
+									dataOff="No"
 								/>
 							</Col>
 						</Row>

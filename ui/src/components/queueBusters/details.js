@@ -4,13 +4,12 @@ import {
 	CardHeader,
 	CardBody,
 	CardFooter,
-	Row,
-	Col,
 	UncontrolledAlert,
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import { AppSwitch } from "@coreui/react";
 
-const Details = ({ error, queueBuster, handleEnable, handleDisable }) => (
+const Details = ({ error, queueBuster, handleToggle }) => (
 	<Card>
 		<CardHeader>Queue Buster</CardHeader>
 		<CardBody>
@@ -22,29 +21,20 @@ const Details = ({ error, queueBuster, handleEnable, handleDisable }) => (
 				<br />
 				{queueBuster.department}
 			</p>
-			<Row>
-				<Col sm="6">
-					<p>
-						<b>Enabled</b>
-						<br />
-						{queueBuster.enabled ? "Yes" : "No"}
-					</p>
-				</Col>
-				<Col sm="6">
-					<p>
-						<br />
-						{queueBuster.enabled ? (
-							<a href="#" onClick={handleDisable}>
-								Click to disable
-							</a>
-						) : (
-							<a href="#" onClick={handleEnable}>
-								Click to enable
-							</a>
-						)}
-					</p>
-				</Col>
-			</Row>
+			<p>
+				<b>Enabled</b>
+				<br />
+				<AppSwitch
+					className="pt-1"
+					variant={"pill"}
+					label
+					color={"info"}
+					checked={queueBuster.enabled}
+					onChange={handleToggle}
+					dataOn="Yes"
+					dataOff="No"
+				/>
+			</p>
 		</CardBody>
 		<CardFooter>
 			<Link to="/queueBusters">Queue Busters</Link>
