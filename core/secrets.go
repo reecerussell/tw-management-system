@@ -61,7 +61,11 @@ func NewSecret(name string) (*Secret, error) {
 // RSAPublicKey returns an *rsa.PublicKey using the data from the
 // Secret with the given key.
 func (s Secret) RSAPublicKey(key string) (*rsa.PublicKey, error) {
+	log.Println("------------------- FORMATTED DATA --------------------")
+	log.Printf(s[key])
 	data := []byte(formatRSAData(s[key]))
+	log.Println("------------------- FORMATTED DATA --------------------")
+	log.Printf(formatRSAData(s[key]))
 	block, _ := pem.Decode(data)
 	if block == nil {
 		return nil, fmt.Errorf("invalid key format")
