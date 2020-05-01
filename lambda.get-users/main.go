@@ -23,7 +23,7 @@ func HandleGetUser(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRes
 	if err != nil {
 		return events.APIGatewayProxyResponse{
 			StatusCode: err.Status(),
-			Headers:    core.CORSHeaders(http.MethodGet),
+			Headers:    core.CORSHeaders(req),
 			Body:       http.StatusText(http.StatusNotFound),
 		}, nil
 	}
@@ -31,7 +31,7 @@ func HandleGetUser(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRes
 	json, _ := json.Marshal(users)
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
-		Headers:    core.CORSHeaders(http.MethodGet),
+		Headers:    core.CORSHeaders(req),
 		Body:       string(json),
 	}, nil
 }

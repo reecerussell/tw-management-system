@@ -23,14 +23,14 @@ func Handle(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, 
 	qbs, err := queueBusters.GetAll()
 	if err != nil {
 		resp := err.Response()
-		resp.Headers = core.CORSHeaders(http.MethodGet)
+		resp.Headers = core.CORSHeaders(req)
 		return resp, nil
 	}
 
 	data, _ := json.Marshal(qbs)
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
-		Headers:    core.CORSHeaders(http.MethodGet),
+		Headers:    core.CORSHeaders(req),
 		Body:       string(data),
 	}, nil
 }

@@ -39,7 +39,7 @@ func HandleLogin(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	ac, err := users.Login(&creds)
 	if err != nil {
 		resp := err.Response()
-		resp.Headers = core.CORSHeaders(http.MethodPost)
+		resp.Headers = core.CORSHeaders(req)
 		return resp, nil
 	}
 
@@ -48,7 +48,7 @@ func HandleLogin(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
 		Body:       string(data),
-		Headers:    core.CORSHeaders(http.MethodPost),
+		Headers:    core.CORSHeaders(req),
 	}, nil
 }
 

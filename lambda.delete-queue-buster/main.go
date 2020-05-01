@@ -27,20 +27,20 @@ func Handle(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, 
 			fmt.Errorf("missing department"),
 			http.StatusBadRequest,
 		).Response()
-		resp.Headers = core.CORSHeaders(http.MethodDelete)
+		resp.Headers = core.CORSHeaders(req)
 		return resp, nil
 	}
 
 	err := queueBusters.Delete(department)
 	if err != nil {
 		resp := err.Response()
-		resp.Headers = core.CORSHeaders(http.MethodDelete)
+		resp.Headers = core.CORSHeaders(req)
 		return resp, nil
 	}
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
-		Headers:    core.CORSHeaders(http.MethodDelete),
+		Headers:    core.CORSHeaders(req),
 	}, nil
 }
 

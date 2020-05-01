@@ -29,7 +29,7 @@ func Handle(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, 
 			fmt.Errorf("missing department"),
 			http.StatusBadRequest,
 		).Response()
-		resp.Headers = core.CORSHeaders(http.MethodGet)
+		resp.Headers = core.CORSHeaders(req)
 		return resp, nil
 	}
 
@@ -38,14 +38,14 @@ func Handle(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, 
 	qb, err := queueBusters.Get(department)
 	if err != nil {
 		resp := err.Response()
-		resp.Headers = core.CORSHeaders(http.MethodGet)
+		resp.Headers = core.CORSHeaders(req)
 		return resp, nil
 	}
 
 	data, _ := json.Marshal(qb)
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
-		Headers:    core.CORSHeaders(http.MethodGet),
+		Headers:    core.CORSHeaders(req),
 		Body:       string(data),
 	}, nil
 }

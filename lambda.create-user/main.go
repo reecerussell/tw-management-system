@@ -39,7 +39,7 @@ func HandleCreate(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResp
 	user, err := users.Create(&data)
 	if err != nil {
 		resp := err.Response()
-		resp.Headers = core.CORSHeaders(http.MethodPost)
+		resp.Headers = core.CORSHeaders(req)
 		return resp, nil
 	}
 
@@ -47,7 +47,7 @@ func HandleCreate(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResp
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
-		Headers:    core.CORSHeaders(http.MethodPost),
+		Headers:    core.CORSHeaders(req),
 		Body:       string(bytes),
 	}, nil
 }
