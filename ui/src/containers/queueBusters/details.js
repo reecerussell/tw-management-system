@@ -12,6 +12,10 @@ const DetailsContainer = ({ department }) => {
 	const [queueBuster, setQueueBuster] = useState(null);
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [deleteModal, setDeleteModalOpen] = useState(false);
+	const [redirect, setRedirect] = useState(null);
+
+	const toggleModal = () => setDeleteModalOpen(!deleteModal);
 
 	const fetchQueueBuster = async () =>
 		await Api.QueueBusters.Get(
@@ -37,6 +41,11 @@ const DetailsContainer = ({ department }) => {
 		setLoading(false);
 	};
 
+	const deleteSuccess = async () => {
+		toggleModal();
+		setRedirect("/queueBusters");
+	};
+
 	useEffect(() => {
 		fetchQueueBuster();
 	}, [department]);
@@ -56,6 +65,10 @@ const DetailsContainer = ({ department }) => {
 			error={error}
 			queueBuster={queueBuster}
 			handleToggle={handleToggle}
+			toggleModal={toggleModal}
+			deleteModal={deleteModal}
+			deleteSuccess={deleteSuccess}
+			redirect={redirect}
 		/>
 	);
 };
