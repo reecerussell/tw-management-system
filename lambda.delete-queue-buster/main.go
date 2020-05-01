@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -20,7 +21,7 @@ func init() {
 
 // Handle is the lambda function handler.
 func Handle(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	department := req.PathParameters["department"]
+	department, _ := url.QueryUnescape(req.PathParameters["department"])
 	if department == "" {
 		resp := core.NewErrorWithStatus(
 			fmt.Errorf("missing department"),
