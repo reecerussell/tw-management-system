@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/rsa"
 	"errors"
+	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -64,20 +65,27 @@ func HandleAuthorize(evt events.APIGatewayCustomAuthorizerRequest) (events.APIGa
 		return events.APIGatewayCustomAuthorizerResponse{}, errors.New("Unauthorized")
 	}
 
-	return generatePolicy("user", "Allow", evt.MethodArn), nil
+	log.Printf("[AUTHORIZER]: success: valid token")
+
+	return generatePolicy("user", "Allow"), nil
 }
 
-func generatePolicy(principalID, effect, resource string) events.APIGatewayCustomAuthorizerResponse {
+func generatePolicy(principalID, effect string) events.APIGatewayCustomAuthorizerResponse {
 	res := events.APIGatewayCustomAuthorizerResponse{PrincipalID: principalID}
 
-	if effect != "" && resource != "" {
+	if effect != "" {
 		res.PolicyDocument = events.APIGatewayCustomAuthorizerPolicy{
 			Version: "2012-10-17",
 			Statement: []events.IAMPolicyStatement{
 				{
-					Action:   []string{"execute-api:Invoke"},
-					Effect:   effect,
-					Resource: []string{resource},
+					Action: []string{"execute-api:Invoke"},
+					Effect: effect,
+					Resource: []string{
+						fmt.Sprintf("arn:aws:execute-api:%s:%s:%s/*/*/*",
+							os.Getenv("AWS_REGION"),
+							os.Getenv("ACCOUNT_ID"),
+							os.Getenv("API_ID")),
+					},
 				},
 			},
 		}
