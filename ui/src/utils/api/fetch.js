@@ -13,7 +13,7 @@ const Send = async (url, options) => {
 			"Content-Type": "application/json",
 			Authorization: "Bearer " + GetAccessToken(),
 		};
-	} else if (!options.headers["Authorization"]) {
+	} else if (!options.headers["authorization"]) {
 		options.headers["Authorization"] = "Bearer " + GetAccessToken();
 	}
 

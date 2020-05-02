@@ -21,8 +21,6 @@ const Login = (token, expires) => {
 
 const Logout = () => {
 	Login(null, -1);
-
-	triggerListeners();
 };
 
 const IsAuthenticated = () => {
