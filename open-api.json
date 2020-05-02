@@ -1,0 +1,1588 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "tw-gateway",
+      "description": "A REST API to the TWMS services",
+      "version": "2020-05-01T19:59:20Z"
+    },
+    "servers": [
+      {
+        "url": "https://isoewik3qb.execute-api.eu-west-2.amazonaws.com/{basePath}",
+        "variables": {
+          "basePath": {
+            "default": "/prod"
+          }
+        }
+      }
+    ],
+    "paths": {
+      "/token": {
+        "post": {
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserCredential"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/AccessToken"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "400 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          },
+          "x-amazon-apigateway-integration": {
+            "uri": "arn:aws:apigateway:eu-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-2:739126103191:function:tw-login/invocations",
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "httpMethod": "POST",
+            "contentHandling": "CONVERT_TO_TEXT",
+            "type": "aws_proxy"
+          }
+        },
+        "options": {
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                "Access-Control-Allow-Methods": {
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                "Access-Control-Allow-Headers": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Empty"
+                  }
+                }
+              }
+            }
+          },
+          "x-amazon-apigateway-integration": {
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'",
+                  "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "requestTemplates": {
+              "application/json": "{\"statusCode\": 200}"
+            },
+            "type": "mock"
+          }
+        }
+      },
+      "/password": {
+        "post": {
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChangePassword"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Empty"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "400 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "401 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "404 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "twms-authorizer": []
+            }
+          ],
+          "x-amazon-apigateway-integration": {
+            "uri": "arn:aws:apigateway:eu-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-2:739126103191:function:tw-change-password/invocations",
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "httpMethod": "POST",
+            "contentHandling": "CONVERT_TO_TEXT",
+            "type": "aws_proxy"
+          }
+        },
+        "options": {
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                "Access-Control-Allow-Methods": {
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                "Access-Control-Allow-Headers": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Empty"
+                  }
+                }
+              }
+            }
+          },
+          "x-amazon-apigateway-integration": {
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'",
+                  "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "requestTemplates": {
+              "application/json": "{\"statusCode\": 200}"
+            },
+            "type": "mock"
+          }
+        }
+      },
+      "/queuebuster": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/QueueBusterList"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "401 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "404 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/QueueBuster"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "twms-authorizer": []
+            }
+          ],
+          "x-amazon-apigateway-integration": {
+            "uri": "arn:aws:apigateway:eu-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-2:739126103191:function:tw-get-queue-busters/invocations",
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "httpMethod": "POST",
+            "contentHandling": "CONVERT_TO_TEXT",
+            "type": "aws_proxy"
+          }
+        },
+        "post": {
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueueBuster"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Empty"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "400 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "401 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "twms-authorizer": []
+            }
+          ],
+          "x-amazon-apigateway-integration": {
+            "uri": "arn:aws:apigateway:eu-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-2:739126103191:function:tw-create-queue-buster/invocations",
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "httpMethod": "POST",
+            "contentHandling": "CONVERT_TO_TEXT",
+            "type": "aws_proxy"
+          }
+        },
+        "options": {
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                "Access-Control-Allow-Methods": {
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                "Access-Control-Allow-Headers": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Empty"
+                  }
+                }
+              }
+            }
+          },
+          "x-amazon-apigateway-integration": {
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Methods": "'GET,OPTIONS,POST'",
+                  "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "requestTemplates": {
+              "application/json": "{\"statusCode\": 200}"
+            },
+            "type": "mock"
+          }
+        }
+      },
+      "/users": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Empty"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "401 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "404 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "twms-authorizer": []
+            }
+          ],
+          "x-amazon-apigateway-integration": {
+            "uri": "arn:aws:apigateway:eu-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-2:739126103191:function:tw-get-users/invocations",
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "httpMethod": "POST",
+            "contentHandling": "CONVERT_TO_TEXT",
+            "type": "aws_proxy"
+          }
+        },
+        "put": {
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Empty"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "400 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "401 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "404 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "twms-authorizer": []
+            }
+          ],
+          "x-amazon-apigateway-integration": {
+            "uri": "arn:aws:apigateway:eu-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-2:739126103191:function:tw-update-user/invocations",
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "httpMethod": "POST",
+            "contentHandling": "CONVERT_TO_TEXT",
+            "type": "aws_proxy"
+          }
+        },
+        "post": {
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateUser"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "400 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "401 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "twms-authorizer": []
+            }
+          ],
+          "x-amazon-apigateway-integration": {
+            "uri": "arn:aws:apigateway:eu-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-2:739126103191:function:tw-create-user/invocations",
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "httpMethod": "POST",
+            "contentHandling": "CONVERT_TO_TEXT",
+            "type": "aws_proxy"
+          }
+        },
+        "options": {
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                "Access-Control-Allow-Methods": {
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                "Access-Control-Allow-Headers": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Empty"
+                  }
+                }
+              }
+            }
+          },
+          "x-amazon-apigateway-integration": {
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Methods": "'GET,OPTIONS,POST,PUT'",
+                  "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "requestTemplates": {
+              "application/json": "{\"statusCode\": 200}"
+            },
+            "type": "mock"
+          }
+        }
+      },
+      "/queuebuster/disable/{department}": {
+        "post": {
+          "parameters": [
+            {
+              "name": "department",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Empty"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "400 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "401 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "404 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "twms-authorizer": []
+            }
+          ],
+          "x-amazon-apigateway-integration": {
+            "uri": "arn:aws:apigateway:eu-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-2:739126103191:function:tw-disable-queue-buster/invocations",
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "httpMethod": "POST",
+            "contentHandling": "CONVERT_TO_TEXT",
+            "type": "aws_proxy"
+          }
+        },
+        "options": {
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                "Access-Control-Allow-Methods": {
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                "Access-Control-Allow-Headers": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Empty"
+                  }
+                }
+              }
+            }
+          },
+          "x-amazon-apigateway-integration": {
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'",
+                  "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "requestTemplates": {
+              "application/json": "{\"statusCode\": 200}"
+            },
+            "type": "mock"
+          }
+        }
+      },
+      "/queuebuster/enable/{department}": {
+        "post": {
+          "parameters": [
+            {
+              "name": "department",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Empty"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "400 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "401 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "404 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "twms-authorizer": []
+            }
+          ],
+          "x-amazon-apigateway-integration": {
+            "uri": "arn:aws:apigateway:eu-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-2:739126103191:function:tw-enable-queue-buster/invocations",
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "httpMethod": "POST",
+            "contentHandling": "CONVERT_TO_TEXT",
+            "type": "aws_proxy"
+          }
+        },
+        "options": {
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                "Access-Control-Allow-Methods": {
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                "Access-Control-Allow-Headers": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Empty"
+                  }
+                }
+              }
+            }
+          },
+          "x-amazon-apigateway-integration": {
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'",
+                  "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "requestTemplates": {
+              "application/json": "{\"statusCode\": 200}"
+            },
+            "type": "mock"
+          }
+        }
+      },
+      "/users/{id}": {
+        "get": {
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "401 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "404 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "twms-authorizer": []
+            }
+          ],
+          "x-amazon-apigateway-integration": {
+            "uri": "arn:aws:apigateway:eu-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-2:739126103191:function:tw-get-user/invocations",
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "httpMethod": "POST",
+            "contentHandling": "CONVERT_TO_TEXT",
+            "type": "aws_proxy"
+          }
+        },
+        "delete": {
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Empty"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "401 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "404 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "twms-authorizer": []
+            }
+          ],
+          "x-amazon-apigateway-integration": {
+            "uri": "arn:aws:apigateway:eu-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-2:739126103191:function:tw-delete-user/invocations",
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "httpMethod": "POST",
+            "contentHandling": "CONVERT_TO_TEXT",
+            "type": "aws_proxy"
+          }
+        },
+        "options": {
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                "Access-Control-Allow-Methods": {
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                "Access-Control-Allow-Headers": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Empty"
+                  }
+                }
+              }
+            }
+          },
+          "x-amazon-apigateway-integration": {
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Methods": "'DELETE,GET,OPTIONS'",
+                  "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "requestTemplates": {
+              "application/json": "{\"statusCode\": 200}"
+            },
+            "type": "mock"
+          }
+        }
+      },
+      "/queuebuster/{department}": {
+        "get": {
+          "parameters": [
+            {
+              "name": "department",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/QueueBuster"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "401 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "404 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "twms-authorizer": []
+            }
+          ],
+          "x-amazon-apigateway-integration": {
+            "uri": "arn:aws:apigateway:eu-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-2:739126103191:function:tw-get-queue-buster/invocations",
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "httpMethod": "POST",
+            "contentHandling": "CONVERT_TO_TEXT",
+            "type": "aws_proxy"
+          }
+        },
+        "delete": {
+          "parameters": [
+            {
+              "name": "department",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Empty"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "401 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "404 response",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Error"
+                  }
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "twms-authorizer": []
+            }
+          ],
+          "x-amazon-apigateway-integration": {
+            "uri": "arn:aws:apigateway:eu-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-2:739126103191:function:tw-delete-queue-buster/invocations",
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "httpMethod": "POST",
+            "contentHandling": "CONVERT_TO_TEXT",
+            "type": "aws_proxy"
+          }
+        },
+        "options": {
+          "responses": {
+            "200": {
+              "description": "200 response",
+              "headers": {
+                "Access-Control-Allow-Origin": {
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                "Access-Control-Allow-Methods": {
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                "Access-Control-Allow-Headers": {
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Empty"
+                  }
+                }
+              }
+            }
+          },
+          "x-amazon-apigateway-integration": {
+            "responses": {
+              "default": {
+                "statusCode": "200",
+                "responseParameters": {
+                  "method.response.header.Access-Control-Allow-Methods": "'DELETE,GET,OPTIONS'",
+                  "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                  "method.response.header.Access-Control-Allow-Origin": "'http://tw-admin.s3-website.eu-west-2.amazonaws.com'"
+                }
+              }
+            },
+            "passthroughBehavior": "when_no_match",
+            "requestTemplates": {
+              "application/json": "{\"statusCode\": 200}"
+            },
+            "type": "mock"
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "ChangePassword": {
+          "title": "Change Password",
+          "required": [
+            "current",
+            "id",
+            "new"
+          ],
+          "type": "object",
+          "properties": {
+            "id": {
+              "title": "User Id",
+              "type": "string",
+              "description": "The target user's id.",
+              "default": ""
+            },
+            "current": {
+              "title": "Current Password",
+              "type": "string",
+              "description": "The user's current password.",
+              "default": ""
+            },
+            "new": {
+              "title": "New Password",
+              "type": "string",
+              "description": "The user's new password.",
+              "default": ""
+            }
+          },
+          "additionalProperties": true,
+          "description": "The data required to change a user's password.",
+          "default": {}
+        },
+        "QueueBuster": {
+          "title": "Queue Buster",
+          "required": [
+            "department",
+            "enabled"
+          ],
+          "type": "object",
+          "properties": {
+            "department": {
+              "title": "Department",
+              "type": "string",
+              "description": "The department of a queue buster.",
+              "default": ""
+            },
+            "enabled": {
+              "title": "Enabled",
+              "type": "boolean",
+              "description": "The status of a queue buster.",
+              "default": false
+            }
+          },
+          "additionalProperties": true,
+          "description": "A queue buster record.",
+          "default": {}
+        },
+        "UserCredential": {
+          "title": "User Credential",
+          "required": [
+            "password",
+            "username"
+          ],
+          "type": "object",
+          "properties": {
+            "username": {
+              "title": "Username",
+              "maxLength": 50,
+              "minLength": 5,
+              "type": "string",
+              "description": "A user's username.",
+              "default": ""
+            },
+            "password": {
+              "title": "Password",
+              "minLength": 6,
+              "type": "string",
+              "description": "A user's password.",
+              "default": ""
+            }
+          },
+          "additionalProperties": true,
+          "description": "A user's credentials which are used to request an access token.",
+          "default": {}
+        },
+        "Empty": {
+          "title": "Empty Schema",
+          "type": "object"
+        },
+        "User": {
+          "title": "User",
+          "required": [
+            "email",
+            "id",
+            "username"
+          ],
+          "type": "object",
+          "properties": {
+            "id": {
+              "title": "Id",
+              "type": "string",
+              "description": "A user's unique identifier.",
+              "default": ""
+            },
+            "username": {
+              "title": "Username",
+              "maxLength": 50,
+              "minLength": 5,
+              "type": "string",
+              "description": "A user's username.",
+              "default": ""
+            },
+            "email": {
+              "title": "Email",
+              "type": "string",
+              "description": "A user's email address.",
+              "default": ""
+            }
+          },
+          "additionalProperties": true,
+          "description": "A user's information.",
+          "default": {}
+        },
+        "AccessToken": {
+          "title": "Access Token",
+          "required": [
+            "accessToken",
+            "expires"
+          ],
+          "type": "object",
+          "properties": {
+            "accessToken": {
+              "title": "Access Token",
+              "type": "string",
+              "description": "A JWT access token used to access the API.",
+              "default": ""
+            },
+            "expires": {
+              "title": "Expires",
+              "type": "number",
+              "description": "UNIX time of when the token expires in UTC.",
+              "default": 0
+            }
+          },
+          "additionalProperties": true,
+          "description": "JWT access token data.",
+          "default": {}
+        },
+        "CreateUser": {
+          "title": "Create User",
+          "required": [
+            "email",
+            "password",
+            "username"
+          ],
+          "type": "object",
+          "properties": {
+            "username": {
+              "title": "Username",
+              "maxLength": 50,
+              "minLength": 5,
+              "type": "string",
+              "description": "The new user's username.",
+              "default": ""
+            },
+            "email": {
+              "title": "Email",
+              "type": "string",
+              "description": "The new user's email address.",
+              "default": ""
+            },
+            "password": {
+              "title": "Password",
+              "minLength": 6,
+              "type": "string",
+              "description": "The new user's password.",
+              "default": ""
+            }
+          },
+          "additionalProperties": true,
+          "description": "The data required to create a user.",
+          "default": {}
+        },
+        "Error": {
+          "title": "Error Schema",
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            }
+          }
+        },
+        "QueueBusterList": {
+          "title": "An array of Queue Busters",
+          "type": "array",
+          "description": "An array of queue buster records.",
+          "items": {
+            "title": "Queue Busters",
+            "required": [
+              "department",
+              "enabled"
+            ],
+            "type": "object",
+            "properties": {
+              "department": {
+                "title": "Department",
+                "type": "string",
+                "description": "The department of a queue buster.",
+                "default": ""
+              },
+              "enabled": {
+                "title": "Enabled",
+                "type": "boolean",
+                "description": "The status of a queue buster.",
+                "default": false
+              }
+            },
+            "additionalProperties": true,
+            "description": "Array of queue busters.",
+            "default": {}
+          },
+          "default": []
+        }
+      },
+      "securitySchemes": {
+        "twms-authorizer": {
+          "type": "apiKey",
+          "name": "Authorization",
+          "in": "header",
+          "x-amazon-apigateway-authtype": "custom",
+          "x-amazon-apigateway-authorizer": {
+            "authorizerUri": "arn:aws:apigateway:eu-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-2:739126103191:function:tw-authorizer/invocations",
+            "authorizerResultTtlInSeconds": 300,
+            "type": "token"
+          }
+        }
+      }
+    }
+  }
