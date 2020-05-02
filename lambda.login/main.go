@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -26,7 +25,6 @@ func HandleLogin(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	var creds dto.UserCredentials
 
 	body := make([]byte, base64.StdEncoding.DecodedLen(len(req.Body)))
-	log.Printf("Body: %v\n", req.Body)
 	if req.IsBase64Encoded {
 		base64.StdEncoding.Decode(body, []byte(req.Body))
 	} else {
