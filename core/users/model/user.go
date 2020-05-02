@@ -12,9 +12,8 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/reecerussell/tw-management-system/core/users/dto"
-
 	"github.com/reecerussell/tw-management-system/core/users/datamodel"
+	"github.com/reecerussell/tw-management-system/core/users/dto"
 
 	"golang.org/x/crypto/pbkdf2"
 )
