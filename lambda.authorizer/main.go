@@ -60,7 +60,7 @@ func HandleAuthorize(evt events.APIGatewayCustomAuthorizerRequest) (events.APIGa
 	}
 
 	if !valid {
-		errLog.Printf("token not valid: %v", err)
+		errLog.Printf("token not valid")
 		return events.APIGatewayCustomAuthorizerResponse{}, errors.New("Unauthorized")
 	}
 
