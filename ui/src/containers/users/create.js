@@ -75,7 +75,6 @@ const CreateContainer = () => {
 
 		setLoading(true);
 
-		console.log("Hello");
 		await Api.Users.Create(
 			{
 				username,
