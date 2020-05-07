@@ -7,7 +7,7 @@ const List = ({ error, loading, items }) => (
 		{error !== null ? (
 			<UncontrolledAlert color="danger">{error}</UncontrolledAlert>
 		) : null}
-		<Table striped>
+		<Table striped responsive>
 			<thead>
 				<tr>
 					<th>Department</th>
