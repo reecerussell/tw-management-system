@@ -24,6 +24,9 @@ const EditContainer = ({ id }) => {
 		setUser(data);
 	};
 
+	const fetchUser = async () =>
+		Api.Users.Get(id, async (res) => setUser(await res.json()), setError);
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -33,11 +36,7 @@ const EditContainer = ({ id }) => {
 
 		setLoading(true);
 
-		await Api.Users.Update(
-			user,
-			async (res) => setUser(await res.json()),
-			setError
-		);
+		await Api.Users.Update(user, fetchUser, setError);
 
 		setLoading(false);
 	};
@@ -48,7 +47,7 @@ const EditContainer = ({ id }) => {
 	};
 
 	useEffect(() => {
-		Api.Users.Get(id, async (res) => setUser(await res.json()), setError);
+		fetchUser();
 	}, [id]);
 
 	if (!user) {
