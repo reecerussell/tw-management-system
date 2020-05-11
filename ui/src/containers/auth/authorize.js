@@ -10,10 +10,11 @@ const propTypes = {
 const defaultProps = {};
 
 const AuthorizeContainer = ({ children }) => {
-	const [state, setState] = useState(0);
+	const [state, update] = useState(0);
+	const listenerCallback = () => update(state + 1);
 
 	useEffect(() => {
-		Listen("auth", () => setState(state + 1));
+		Listen("auth", listenerCallback);
 
 		return () => Unlisten("auth");
 	}, []);
