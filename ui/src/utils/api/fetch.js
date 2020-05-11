@@ -1,38 +1,32 @@
-import { GetAccessToken } from "../user";
+import { GetAccessToken, Logout } from "../user";
 
 const Send = async (url, options) => {
+	const ac = GetAccessToken();
+
 	if (!options) {
 		options = {
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: "Bearer " + GetAccessToken(),
 			},
 		};
 	} else if (!options.headers) {
 		options.headers = {
 			"Content-Type": "application/json",
-			Authorization: "Bearer " + GetAccessToken(),
 		};
-	} else if (!options.headers["authorization"]) {
-		options.headers["Authorization"] = "Bearer " + GetAccessToken();
+	}
+
+	if (ac) {
+		options.headers["Authorization"] = "Bearer " + ac;
 	}
 
 	return await fetch(url, options);
 };
 
-const defaultFail = (err) => console.error(err);
-
 const BaseUrl = document.getElementById("base-api-url").value;
 
-const Fetch = async (
-	url,
-	options,
-	onSuccess,
-	onFail = defaultFail,
-	baseUrl = BaseUrl
-) => {
+const Fetch = async (url, options, onSuccess, onFail) => {
 	try {
-		const res = await Send(baseUrl + url, options);
+		const res = await Send(BaseUrl + url, options);
 
 		switch (res.status) {
 			case 200:
@@ -42,30 +36,19 @@ const Fetch = async (
 				}
 				break;
 			case 401:
-			case 403:
-				window.location.hash = "/login";
+				Logout();
 				break;
 			default:
 				try {
-					if (
-						res.headers.get("Content-Type") === "application/json"
-					) {
-						const { message } = await res.json();
-						onFail(message);
-					} else {
-						const message = await res.text();
-						onFail(message);
-					}
+					const { message } = await res.json();
+					onFail(message);
 				} catch {
 					onFail("An error occured while reading the response.");
 				}
 				break;
 		}
-	} catch (e) {
-		console.log(e);
-		onFail(
-			"It seems like we can't connect to the server. Try again later!"
-		);
+	} catch {
+		onFail("An error occured while communicating with the server.");
 	}
 };
 
