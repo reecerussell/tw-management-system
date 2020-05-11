@@ -81,10 +81,7 @@ const CreateContainer = () => {
 				email,
 				password,
 			},
-			async (res) => {
-				const { id } = await res.json();
-				setRedirect(`/users/${id}/details`);
-			},
+			async () => setRedirect(`/users`),
 			setError
 		);
 
