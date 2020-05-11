@@ -5,7 +5,6 @@ import "./App.scss";
 
 const Authorize = React.lazy(() => import("./containers/auth/authorize"));
 const Layout = React.lazy(() => import("./containers/layout"));
-const Login = React.lazy(() => import("./views/pages/login"));
 
 const App = () => {
 	const loadingFallback = (
@@ -27,23 +26,15 @@ const App = () => {
 	return (
 		<HashRouter>
 			<Suspense fallback={loadingFallback}>
-				<Switch>
-					<Route
-						exact
-						path="/login"
-						name="Login Page"
-						render={(props) => <Login {...props} />}
-					/>
-					<Route
-						path="/"
-						name="Home"
-						render={(props) => (
-							<Authorize>
-								<Layout {...props} />
-							</Authorize>
-						)}
-					/>
-				</Switch>
+				<Authorize>
+					<Switch>
+						<Route
+							path="/"
+							name="Home"
+							render={(props) => <Layout {...props} />}
+						/>
+					</Switch>
+				</Authorize>
 			</Suspense>
 		</HashRouter>
 	);

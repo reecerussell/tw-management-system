@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Token } from "../../utils/api";
 import { Login } from "../../components/auth";
-import { useLocation, Redirect } from "react-router-dom";
-import { Login as SetLogin, IsAuthenticated } from "../../utils/user";
+import { useLocation } from "react-router-dom";
+import { Login as SetLogin } from "../../utils/user";
 
 const LoginContainer = () => {
 	const [username, setUsername] = useState("");
@@ -71,12 +71,6 @@ const LoginContainer = () => {
 		const { accessToken, expires } = data;
 		SetLogin(accessToken, expires);
 	}, [data, loading]);
-
-	if (IsAuthenticated()) {
-		return (
-			<Redirect to={pathname === "/login" ? "/dashboard" : pathname} />
-		);
-	}
 
 	return (
 		<Login
