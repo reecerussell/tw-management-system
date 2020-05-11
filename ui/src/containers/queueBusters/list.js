@@ -22,11 +22,11 @@ const ListContainer = () => {
 		setLoading(false);
 	};
 
-	useState(() => {
+	useEffect(() => {
 		fetchItems();
 	}, []);
 
-	useState(() => {
+	useEffect(() => {
 		if (error !== null) {
 			setTimeout(() => setError(null), 4000);
 		}
