@@ -72,8 +72,10 @@ const LoginContainer = () => {
 		SetLogin(accessToken, expires);
 	}, [data, loading]);
 
-	if (pathname === "/login" && IsAuthenticated()) {
-		return <Redirect to="/dashboard" />;
+	if (IsAuthenticated()) {
+		return (
+			<Redirect to={pathname === "/login" ? "/dashboard" : pathname} />
+		);
 	}
 
 	return (
