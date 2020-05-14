@@ -31,7 +31,7 @@ const Layout = (props) => {
 	const signOut = (e) => {
 		e.preventDefault();
 		Logout();
-		props.history.push("/login");
+		window.location.reload();
 	};
 
 	return (
