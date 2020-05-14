@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Token } from "../../utils/api";
 import { Login } from "../../components/auth";
-import { useLocation } from "react-router-dom";
 import { Login as SetLogin } from "../../utils/user";
 
 const LoginContainer = () => {
@@ -10,7 +9,6 @@ const LoginContainer = () => {
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState(null);
-	const { pathname } = useLocation();
 
 	const isValid = () => {
 		if (username === "") {
@@ -41,7 +39,9 @@ const LoginContainer = () => {
 				password,
 			},
 			async (res) => {
-				setData(await res.json());
+				const { accessToken, expires } = await res.json();
+				SetLogin(accessToken, expires);
+				window.location.reload();
 			},
 			setError
 		);
@@ -62,15 +62,6 @@ const LoginContainer = () => {
 				break;
 		}
 	};
-
-	useEffect(() => {
-		if (loading || !data) {
-			return;
-		}
-
-		const { accessToken, expires } = data;
-		SetLogin(accessToken, expires);
-	}, [data, loading]);
 
 	return (
 		<Login
