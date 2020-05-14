@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Something went wrong :( | Management System</title>
+
+		<style>
+			html,
+			body {
+				margin: 0;
+				padding: 0;
+				font-family: Arial, Helvetica, sans-serif;
+				background-color: #f4f4f4;
+			}
+
+			main {
+				padding: 50px 30px;
+			}
+
+			h1 {
+				font-size: 30px;
+				color: #008cba;
+			}
+
+			#showMore {
+				font-size: 14px;
+				text-decoration: underline;
+				color: #008cba;
+			}
+
+			#more {
+				display: none;
+			}
+
+			@media only screen and (min-width: 600px) {
+				main {
+					max-width: 600px;
+					margin: 100px auto;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<h1>Oops, it looks like something went wrong!</h1>
+			<p>
+				If this problem persists, please contact a system administrator.
+			</p>
+
+			<a id="showMore" href="#">Show more</a>
+
+			<p id="more">
+				This is most likely a problem with AWS S3, not the system
+				itself.
+			</p>
+		</main>
+
+		<script type="text/javascript">
+			(function () {
+				document
+					.getElementById("showMore")
+					.addEventListener("click", (e) => {
+						e.preventDefault();
+						e.target.style.display = "none";
+						document.getElementById("more").style.display = "block";
+					});
+			})();
+		</script>
+	</body>
+</html>
