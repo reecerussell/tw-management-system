@@ -39,7 +39,7 @@ const Details = ({
 					{queueBuster.department}
 				</p>
 				<p>
-					<b>Enabled</b>
+					<b>Status</b>
 					<br />
 					<AppSwitch
 						className="pt-1"
@@ -48,8 +48,8 @@ const Details = ({
 						color={"info"}
 						checked={queueBuster.enabled}
 						onChange={handleToggle}
-						dataOn="Yes"
-						dataOff="No"
+						dataOn="On"
+						dataOff="Off"
 					/>
 				</p>
 			</CardBody>
