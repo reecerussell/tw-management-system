@@ -9,6 +9,12 @@ import (
 	"github.com/reecerussell/tw-management-system/core/queuebuster/dto"
 )
 
+// Status values.
+const (
+	StatusOn  = "on"
+	StatusOff = "off"
+)
+
 // QueueBuster is the domain model for the queue buster domain.
 type QueueBuster struct {
 	department string
@@ -67,9 +73,9 @@ func (qb *QueueBuster) DataModel() *datamodel.QueueBuster {
 	}
 
 	if qb.enabled {
-		dm.Status = "yes"
+		dm.Status = StatusOn
 	} else {
-		dm.Status = "no"
+		dm.Status = StatusOff
 	}
 
 	return dm
@@ -89,7 +95,7 @@ func QueueBusterFromDataModel(dm *datamodel.QueueBuster) *QueueBuster {
 		department: dm.Department,
 	}
 
-	if dm.Status == "yes" {
+	if dm.Status == StatusOn {
 		qb.enabled = true
 	} else {
 		qb.enabled = false
