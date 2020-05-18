@@ -19,9 +19,12 @@ const App = () => {
 		*/
 
 		if (!IsAuthenticated()) {
+			console.log("Not Authenticated");
 			Logout();
+		} else {
+			console.log("Authenticated");
 		}
-	}, 15000);
+	}, 5000);
 
 	return (
 		<HashRouter>
