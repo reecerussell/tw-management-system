@@ -1,30 +1,38 @@
-const AccessTokenCookieName = "twms_ac";
+const AccessTokenKey = "twms_ac";
+const ExpiryKey = "twms_te";
 
-const GetAccessToken = () => {
-	const value = document.cookie.match(
-		"(^|;) ?" + AccessTokenCookieName + "=([^;]*)(;|$)"
-	);
-
-	return value ? value[2] : null;
-};
+const GetAccessToken = () => localStorage.getItem(AccessTokenKey);
 
 const Login = (token, expires) => {
 	expires *= 1000;
-	let d = new Date(expires);
-	d = d + d.getTimezoneOffset() * 60000;
+	const expiryDate = new Date(new Date(expires).toUTCString()).getTime();
 
-	document.cookie =
-		AccessTokenCookieName + "=" + token + ";path=/;expires=" + d;
+	localStorage.setItem(AccessTokenKey, token);
+	localStorage.setItem(ExpiryKey, expiryDate);
 
 	triggerListeners();
 };
 
 const Logout = () => {
-	Login(null, -1);
+	localStorage.removeItem(AccessTokenKey);
+	localStorage.removeItem(ExpiryKey);
+
+	triggerListeners();
 };
 
 const IsAuthenticated = () => {
-	return GetAccessToken() !== null;
+	const token = GetAccessToken();
+	if (!token) {
+		return false;
+	}
+
+	const time = localStorage.getItem(ExpiryKey);
+	const expiryDate = new Date(parseInt(time));
+	if (expiryDate < new Date()) {
+		return false;
+	}
+
+	return true;
 };
 
 const listeners = new Map();
