@@ -73,6 +73,7 @@ func (r *QueueBusterRepository) All() ([]*model.QueueBuster, core.Error) {
 	proj := expression.NamesList(
 		expression.Name("department"),
 		expression.Name("status"),
+		expression.Name("announcements"),
 	)
 	expr, err := expression.NewBuilder().WithProjection(proj).Build()
 	if err != nil {
