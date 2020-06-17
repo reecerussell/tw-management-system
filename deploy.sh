@@ -18,6 +18,8 @@ GET_QB_NAME=tw-get-queue-buster
 GET_QBS_NAME=tw-get-queue-busters
 ENABLE_QB_NAME=tw-enable-queue-buster
 DISABLE_QB_NAME=tw-disable-queue-buster
+ENABLE_ANNOUNCEMENTS_QB_NAME=tw-enable-queue-buster-announcements
+DISABLE_ANNOUNCEMENTS_QB_NAME=tw-disbale-queue-buster-announcements
 
 # Authorizer
 env GOOS=linux GOARCH=amd64 go build -o /tmp/$AUTHORIZER_NAME lambda.authorizer/main.go
@@ -102,3 +104,15 @@ env GOOS=linux GOARCH=amd64 go build -o /tmp/$DISABLE_QB_NAME lambda.disable-que
 sudo rm /tmp/$DISABLE_QB_NAME && sudo rm /tmp/$DISABLE_QB_NAME.zip
 zip -j /tmp/$DISABLE_QB_NAME.zip /tmp/$DISABLE_QB_NAME
 aws lambda update-function-code --function-name $DISABLE_QB_NAME --zip-file fileb:///tmp/$DISABLE_QB_NAME.zip
+
+# Enable Queue Buster Announcements
+env GOOS=linux GOARCH=amd64 go build -o /tmp/$ENABLE_ANNOUNCEMENTS_QB_NAME lambda.enable-queue-buster-announcements/main.go
+sudo rm /tmp/$ENABLE_ANNOUNCEMENTS_QB_NAME && sudo rm /tmp/$ENABLE_ANNOUNCEMENTS_QB_NAME.zip
+zip -j /tmp/$ENABLE_ANNOUNCEMENTS_QB_NAME.zip /tmp/$ENABLE_ANNOUNCEMENTS_QB_NAME
+aws lambda update-function-code --function-name $ENABLE_ANNOUNCEMENTS_QB_NAME --zip-file fileb:///tmp/$ENABLE_ANNOUNCEMENTS_QB_NAME.zip
+
+# Enable Queue Buster Announcements
+env GOOS=linux GOARCH=amd64 go build -o /tmp/$DISABLE_ANNOUNCEMENTS_QB_NAME lambda.enable-queue-buster-announcements/main.go
+sudo rm /tmp/$DISABLE_ANNOUNCEMENTS_QB_NAME && sudo rm /tmp/$DISABLE_ANNOUNCEMENTS_QB_NAME.zip
+zip -j /tmp/$DISABLE_ANNOUNCEMENTS_QB_NAME.zip /tmp/$DISABLE_ANNOUNCEMENTS_QB_NAME
+aws lambda update-function-code --function-name $DISABLE_ANNOUNCEMENTS_QB_NAME --zip-file fileb:///tmp/$DISABLE_ANNOUNCEMENTS_QB_NAME.zip
