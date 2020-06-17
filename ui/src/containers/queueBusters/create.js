@@ -5,6 +5,7 @@ import { Create } from "../../components/queueBusters";
 const CreateContainer = () => {
 	const [department, setDepartment] = useState("");
 	const [enabled, setEnabled] = useState(false);
+	const [announcements, setAnnouncements] = useState(false);
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [redirect, setRedirect] = useState(null);
@@ -40,8 +41,8 @@ const CreateContainer = () => {
 	};
 
 	const handleUpdateDepartment = (e) => setDepartment(e.target.value);
-
 	const handleUpdateEnabled = (e) => setEnabled(e.target.checked);
+	const handleUpdateAnnouncements = (e) => setAnnouncements(e.target.checked);
 
 	useEffect(() => {
 		if (error !== null) {
@@ -54,11 +55,13 @@ const CreateContainer = () => {
 			error={error}
 			department={department}
 			enabled={enabled}
+			announcements={announcements}
 			loading={loading}
 			redirect={redirect}
 			handleSubmit={handleSubmit}
 			handleUpdateDepartment={handleUpdateDepartment}
 			handleUpdateEnabled={handleUpdateEnabled}
+			handleUpdateAnnouncements={handleUpdateAnnouncements}
 		/>
 	);
 };
