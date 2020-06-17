@@ -68,6 +68,38 @@ func (qb *QueueBuster) Disable() core.Error {
 	return nil
 }
 
+// EnableAnnouncements sets the announcements field to true, flagging
+// queue announcements to enabled. If announcements are already enabled,
+// an error will be returned.
+func (qb *QueueBuster) EnableAnnouncements() core.Error {
+	if qb.announcements {
+		return core.NewErrorWithStatus(
+			fmt.Errorf("queue announcements are already enabled"),
+			http.StatusBadRequest,
+		)
+	}
+
+	qb.enabled = true
+
+	return nil
+}
+
+// DisableAnnouncements sets the announcements field to false, flagging
+// queue announcements to disabled. If announcements are already disabled,
+// an error will be returned.
+func (qb *QueueBuster) DisableAnnouncements() core.Error {
+	if !qb.announcements {
+		return core.NewErrorWithStatus(
+			fmt.Errorf("queue announcements are already disabled"),
+			http.StatusBadRequest,
+		)
+	}
+
+	qb.enabled = false
+
+	return nil
+}
+
 // DataModel returns a queue buster data model for the QueueBuster.
 func (qb *QueueBuster) DataModel() *datamodel.QueueBuster {
 	dm := &datamodel.QueueBuster{
