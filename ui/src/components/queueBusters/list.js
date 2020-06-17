@@ -12,6 +12,7 @@ const List = ({ error, loading, items }) => (
 				<tr>
 					<th>Department</th>
 					<th>Enabled</th>
+					<th>Announcements</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -25,6 +26,7 @@ const List = ({ error, loading, items }) => (
 						<tr key={idx}>
 							<td>{qb.department}</td>
 							<td>{qb.enabled ? "Yes" : "No"}</td>
+							<td>{qb.announcements ? "Yes" : "No"}</td>
 							<td>
 								<Link
 									to={`queueBusters/${qb.department}/details`}

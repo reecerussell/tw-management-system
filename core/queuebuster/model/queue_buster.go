@@ -19,6 +19,7 @@ const (
 type QueueBuster struct {
 	department string
 	enabled    bool
+	announcements bool
 }
 
 // NewQueueBuster returns a new instance of the QueueBuster domain object.
@@ -26,6 +27,7 @@ func NewQueueBuster(d *dto.QueueBuster) *QueueBuster {
 	return &QueueBuster{
 		department: d.Department,
 		enabled:    d.Enabled,
+		announcements: d.Announcements,
 	}
 }
 
@@ -66,10 +68,43 @@ func (qb *QueueBuster) Disable() core.Error {
 	return nil
 }
 
+// EnableAnnouncements sets the announcements field to true, flagging
+// queue announcements to enabled. If announcements are already enabled,
+// an error will be returned.
+func (qb *QueueBuster) EnableAnnouncements() core.Error {
+	if qb.announcements {
+		return core.NewErrorWithStatus(
+			fmt.Errorf("queue announcements are already enabled"),
+			http.StatusBadRequest,
+		)
+	}
+
+	qb.enabled = true
+
+	return nil
+}
+
+// DisableAnnouncements sets the announcements field to false, flagging
+// queue announcements to disabled. If announcements are already disabled,
+// an error will be returned.
+func (qb *QueueBuster) DisableAnnouncements() core.Error {
+	if !qb.announcements {
+		return core.NewErrorWithStatus(
+			fmt.Errorf("queue announcements are already disabled"),
+			http.StatusBadRequest,
+		)
+	}
+
+	qb.enabled = false
+
+	return nil
+}
+
 // DataModel returns a queue buster data model for the QueueBuster.
 func (qb *QueueBuster) DataModel() *datamodel.QueueBuster {
 	dm := &datamodel.QueueBuster{
 		Department: qb.department,
+		Announcements: qb.announcements,
 	}
 
 	if qb.enabled {
@@ -86,6 +121,7 @@ func (qb *QueueBuster) DTO() *dto.QueueBuster {
 	return &dto.QueueBuster{
 		Department: qb.department,
 		Enabled:    qb.enabled,
+		Announcements: qb.announcements,
 	}
 }
 
@@ -93,6 +129,7 @@ func (qb *QueueBuster) DTO() *dto.QueueBuster {
 func QueueBusterFromDataModel(dm *datamodel.QueueBuster) *QueueBuster {
 	qb := &QueueBuster{
 		department: dm.Department,
+		announcements: dm.Announcements,
 	}
 
 	if dm.Status == StatusOn {

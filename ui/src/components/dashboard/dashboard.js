@@ -63,6 +63,7 @@ const Dashboard = ({ error, items }) => (
 							<tr>
 								<th>Department</th>
 								<th>Enabled</th>
+								<th>Announcements</th>
 								<th />
 							</tr>
 						</thead>
@@ -71,6 +72,7 @@ const Dashboard = ({ error, items }) => (
 								<tr key={idx}>
 									<td>{item.department}</td>
 									<td>{item.enabled ? "Yes" : "No"}</td>
+									<td>{item.announcements ? "Yes" : "No"}</td>
 									<td>
 										<Link
 											to={`/queueBusters/${item.department}/details`}

@@ -15,6 +15,7 @@ const Details = ({
 	error,
 	queueBuster,
 	handleToggle,
+	handleToggleAnnouncements,
 	toggleModal,
 	deleteModal,
 	deleteSuccess,
@@ -48,6 +49,20 @@ const Details = ({
 						color={"info"}
 						checked={queueBuster.enabled}
 						onChange={handleToggle}
+						dataOn="On"
+						dataOff="Off"
+					/>
+				</p>
+				<p>
+					<b>Queue Announcements</b>
+					<br />
+					<AppSwitch
+						className="pt-1"
+						variant={"pill"}
+						label
+						color={"info"}
+						checked={queueBuster.announcements}
+						onChange={handleToggleAnnouncements}
 						dataOn="On"
 						dataOff="Off"
 					/>

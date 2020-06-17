@@ -47,4 +47,33 @@ const Delete = async (department, onSuccess, onError) =>
 		onError
 	);
 
-export { Get, GetAll, Create, Enable, Disable, Delete };
+const EnableAnnouncements = async (department, onSuccess, onError) =>
+	await Fetch(
+		"queuebuster/announcements/enable/" + department,
+		{
+			method: "POST",
+		},
+		onSuccess,
+		onError
+	);
+
+const DisableAnnouncements = async (department, onSuccess, onError) =>
+	await Fetch(
+		"queuebuster/announcements/disable/" + department,
+		{
+			method: "POST",
+		},
+		onSuccess,
+		onError
+	);
+
+export {
+	Get,
+	GetAll,
+	Create,
+	Enable,
+	Disable,
+	Delete,
+	EnableAnnouncements,
+	DisableAnnouncements,
+};
