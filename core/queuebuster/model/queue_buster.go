@@ -79,7 +79,7 @@ func (qb *QueueBuster) EnableAnnouncements() core.Error {
 		)
 	}
 
-	qb.enabled = true
+	qb.announcements = true
 
 	return nil
 }
@@ -95,7 +95,7 @@ func (qb *QueueBuster) DisableAnnouncements() core.Error {
 		)
 	}
 
-	qb.enabled = false
+	qb.announcements = false
 
 	return nil
 }
