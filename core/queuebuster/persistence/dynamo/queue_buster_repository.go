@@ -139,9 +139,13 @@ func (r *QueueBusterRepository) Update(qb *model.QueueBuster) core.Error {
 			":s": {
 				S: aws.String(dm.Status),
 			},
+			":a": {
+				BOOL: aws.Bool(dm.Announcements),
+			},
 		},
 		ExpressionAttributeNames: map[string]*string{
 			"#s": aws.String("status"),
+			"#a": aws.String("announcements"),
 		},
 		TableName: aws.String(repository.TableName),
 		Key: map[string]*dynamodb.AttributeValue{
@@ -150,7 +154,7 @@ func (r *QueueBusterRepository) Update(qb *model.QueueBuster) core.Error {
 			},
 		},
 		ReturnValues:     aws.String("UPDATED_NEW"),
-		UpdateExpression: aws.String("set #s = :s"),
+		UpdateExpression: aws.String("set #s = :s, #a = :a"),
 	}
 
 	_, err := r.client.UpdateItem(in)
