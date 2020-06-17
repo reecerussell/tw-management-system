@@ -23,6 +23,9 @@
 /vendor/
 /Godeps/
 
+# GoLand
+*.idea/*
+
 ### Node ###
 # Logs
 logs

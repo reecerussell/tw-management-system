@@ -22,9 +22,11 @@ const Create = ({
 	loading,
 	department,
 	enabled,
+	announcements,
 	handleSubmit,
 	handleUpdateDepartment,
 	handleUpdateEnabled,
+	handleUpdateAnnouncements,
 	redirect,
 }) => {
 	if (redirect !== null) {
@@ -68,6 +70,25 @@ const Create = ({
 									color={"info"}
 									checked={enabled}
 									onChange={handleUpdateEnabled}
+									dataOn="Yes"
+									dataOff="No"
+								/>
+							</Col>
+						</Row>
+					</FormGroup>
+					<FormGroup>
+						<Row>
+							<Col md="3">
+								<Label>Queue Announcements</Label>
+							</Col>
+							<Col md="9">
+								<AppSwitch
+									className={"float-lg-right"}
+									variant={"pill"}
+									label
+									color={"info"}
+									checked={announcements}
+									onChange={handleUpdateAnnouncements}
 									dataOn="Yes"
 									dataOff="No"
 								/>

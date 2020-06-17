@@ -41,6 +41,23 @@ const DetailsContainer = ({ department }) => {
 		setLoading(false);
 	};
 
+	const handleToggleAnnouncements = async (e) => {
+		e.preventDefault();
+
+		if (loading) {
+			return;
+		}
+
+		setLoading(true);
+
+		const toggle = queueBuster.announcements
+			? Api.QueueBusters.DisableAnnouncements
+			: Api.QueueBusters.EnableAnnouncements;
+		await toggle(department, fetchQueueBuster, setError);
+
+		setLoading(false);
+	};
+
 	const deleteSuccess = async () => {
 		toggleModal();
 		setRedirect("/queueBusters");
@@ -65,6 +82,7 @@ const DetailsContainer = ({ department }) => {
 			error={error}
 			queueBuster={queueBuster}
 			handleToggle={handleToggle}
+			handleToggleAnnouncements={handleToggleAnnouncements}
 			toggleModal={toggleModal}
 			deleteModal={deleteModal}
 			deleteSuccess={deleteSuccess}

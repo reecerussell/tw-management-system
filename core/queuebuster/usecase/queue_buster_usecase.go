@@ -15,6 +15,8 @@ type QueueBusterUsecase interface {
 	Create(d *dto.QueueBuster) core.Error
 	Enable(department string) core.Error
 	Disable(department string) core.Error
+	EnableAnnouncements(department string) core.Error
+	DisableAnnouncements(department string) core.Error
 	Delete(department string) core.Error
 }
 
@@ -102,6 +104,48 @@ func (uc *queueBusterUsecase) Disable(department string) core.Error {
 	}
 
 	err = qb.Disable()
+	if err != nil {
+		return err
+	}
+
+	err = uc.repo.Update(qb)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// EnableAnnouncements flags the queue buster with the given department name,
+// as having queue announcements enabled.
+func (uc *queueBusterUsecase) EnableAnnouncements(department string) core.Error {
+	qb, err := uc.repo.Get(department)
+	if err != nil {
+		return err
+	}
+
+	err = qb.EnableAnnouncements()
+	if err != nil {
+		return err
+	}
+
+	err = uc.repo.Update(qb)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// DisableAnnouncements flags the queue buster with the given department name,
+// as having queue announcements disabled.
+func (uc *queueBusterUsecase) DisableAnnouncements(department string) core.Error {
+	qb, err := uc.repo.Get(department)
+	if err != nil {
+		return err
+	}
+
+	err = qb.DisableAnnouncements()
 	if err != nil {
 		return err
 	}

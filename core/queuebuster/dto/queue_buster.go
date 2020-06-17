@@ -5,4 +5,5 @@ package dto
 type QueueBuster struct {
 	Department string `json:"department"`
 	Enabled    bool   `json:"enabled"`
+	Announcements bool `json:"announcements"`
 }
