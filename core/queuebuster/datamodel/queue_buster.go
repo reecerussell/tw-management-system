@@ -5,4 +5,5 @@ package datamodel
 type QueueBuster struct {
 	Department string `json:"department"`
 	Status     string `json:"status"`
+	Announcements bool `json:"announcements"`
 }

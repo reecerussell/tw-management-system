@@ -19,6 +19,7 @@ const (
 type QueueBuster struct {
 	department string
 	enabled    bool
+	announcements bool
 }
 
 // NewQueueBuster returns a new instance of the QueueBuster domain object.
@@ -26,6 +27,7 @@ func NewQueueBuster(d *dto.QueueBuster) *QueueBuster {
 	return &QueueBuster{
 		department: d.Department,
 		enabled:    d.Enabled,
+		announcements: d.Announcements,
 	}
 }
 
@@ -70,6 +72,7 @@ func (qb *QueueBuster) Disable() core.Error {
 func (qb *QueueBuster) DataModel() *datamodel.QueueBuster {
 	dm := &datamodel.QueueBuster{
 		Department: qb.department,
+		Announcements: qb.announcements,
 	}
 
 	if qb.enabled {
@@ -86,6 +89,7 @@ func (qb *QueueBuster) DTO() *dto.QueueBuster {
 	return &dto.QueueBuster{
 		Department: qb.department,
 		Enabled:    qb.enabled,
+		Announcements: qb.announcements,
 	}
 }
 
@@ -93,6 +97,7 @@ func (qb *QueueBuster) DTO() *dto.QueueBuster {
 func QueueBusterFromDataModel(dm *datamodel.QueueBuster) *QueueBuster {
 	qb := &QueueBuster{
 		department: dm.Department,
+		announcements: dm.Announcements,
 	}
 
 	if dm.Status == StatusOn {
