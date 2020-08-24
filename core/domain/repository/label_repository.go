@@ -11,4 +11,5 @@ type LabelRepository interface {
 	Create(l *model.Label) error
 	Update(l *model.Label) error
 	Delete(id string) error
+	ExistsWithName(name string) (bool, error)
 }

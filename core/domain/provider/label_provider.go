@@ -13,6 +13,6 @@ var (
 // LabelProvider is used to query different Labels. This
 // follows the CQRS pattern by separating queries from commands.
 type LabelProvider interface {
-	Get(id string) (*dto.Label, error)
+	Get(name string) (*dto.Label, error)
 	List() ([]*dto.Label, error)
 }

@@ -9,7 +9,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
-
 	"github.com/reecerussell/tw-management-system/core/domain/datamodel"
 	"github.com/reecerussell/tw-management-system/core/domain/model"
 	"github.com/reecerussell/tw-management-system/core/domain/provider"
@@ -146,4 +145,30 @@ func (lr *labelRepository) Delete(id string) error {
 	}
 
 	return nil
+}
+
+func (lr *labelRepository) ExistsWithName(name string) (bool, error) {
+	input := &dynamodb.ScanInput{
+		ExpressionAttributeValues: map[string]*dynamodb.AttributeValue{
+			":n": {
+				S: aws.String(name),
+			},
+		},
+		FilterExpression: aws.String("name = :n"),
+		ProjectionExpression: aws.String(dynamodb.SelectCount),
+		TableName: aws.String(lr.table),
+	}
+
+	result, err := lr.client.Scan(input)
+	if err != nil {
+		lr.logger.Printf("An error occured while querying DynamoDB: %v", err)
+		return false, err
+	}
+
+	if result.ScannedCount == nil {
+		lr.logger.Printf("Scan count is nil.")
+		return false, nil
+	}
+
+	return *result.ScannedCount > 0, nil
 }

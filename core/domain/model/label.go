@@ -22,6 +22,11 @@ func NewLabel(cl *dto.CreateLabel) *Label {
 	return l
 }
 
+// Name returns the label's name property.
+func (l *Label) Name() string {
+	return l.name
+}
+
 // Update updates the label's values, such as name.
 func (l *Label) Update(d *dto.Label) {
 	l.updateName(d.Name)
@@ -38,6 +43,14 @@ func (l *Label) updateName(name string) {
 // DataModel returns a *datamodel.Label for the label.
 func (l *Label) DataModel() *datamodel.Label {
 	return &datamodel.Label{
+		ID: l.id,
+		Name: l.name,
+	}
+}
+
+// DTO returns a *dto.Label for the label.
+func (l *Label) DTO() *dto.Label {
+	return &dto.Label{
 		ID: l.id,
 		Name: l.name,
 	}

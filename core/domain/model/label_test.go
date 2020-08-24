@@ -45,6 +45,22 @@ func TestLabel_DataModel(t *testing.T) {
 	}
 }
 
+func TestLabel_DTO(t *testing.T) {
+	l := &Label{
+		id: "148",
+		name: "My Label",
+	}
+
+	d := l.DTO()
+	if l.id != d.ID {
+		t.Errorf("the dto's id property was expected to be '%s' but was '%s'", l.id, d.ID)
+	}
+
+	if l.name != d.Name {
+		t.Errorf("the dto's name property was expected to be '%s' but was '%s'", l.name, d.Name)
+	}
+}
+
 func TestLabelFromDataModel(t *testing.T) {
 	dm := &datamodel.Label{
 		ID: "148",
@@ -58,5 +74,14 @@ func TestLabelFromDataModel(t *testing.T) {
 
 	if l.name != dm.Name {
 		t.Errorf("the label's name property was expected to be '%s' but was '%s'", dm.Name, l.name)
+	}
+}
+
+func TestLabel_Name(t *testing.T) {
+	testName := "MyLabel"
+	l := &Label{name: testName}
+
+	if l.Name() != testName {
+		t.Errorf("the label's name should be '%s' not '%s", testName, l.Name())
 	}
 }
